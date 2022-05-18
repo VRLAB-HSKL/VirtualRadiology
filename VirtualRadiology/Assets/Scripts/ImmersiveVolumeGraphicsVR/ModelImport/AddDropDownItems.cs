@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using UnityEngine.UI;
 using TMPro;
 
 namespace ImmersiveVolumeGraphics {
+    
     namespace ModelImport
     {
-
         /// <summary>
         /// Adding the Modelnames to the Dropdownobject 
         /// </summary>
@@ -21,88 +18,64 @@ namespace ImmersiveVolumeGraphics {
         /// <li> [3] https://docs.unity3d.com/Manual/StreamingAssets.html </li>
         /// </ul>
         /// </seealso>
-
-
         public class AddDropDownItems : MonoBehaviour
         {
-
             /// <summary>
             /// The Dropdownobject 
             /// </summary>
             public TMP_Dropdown Dropdown;
             /// <summary>
             /// <ul>
-            /// <li>This is the Path to the 3D-Models in the Unityfolderstructure</li>
+            /// <li>This is the Path to the 3D-Models in the Unity folder structure</li>
             /// <li>Application.dataPath + "/StreamingAssets/" </li>
             /// </ul>
             /// </summary>
-            private string path="";
-
-
+            private string _path = string.Empty;
 
             /// <summary>
             /// Adding Options to the DropDownObject
             /// </summary>
             /// <remarks>
             /// <ul>
-            /// <li>Creates a new DropDownlist</li>
+            /// <li>Creates a new drop down list</li>
             /// <li>Lists just the 3D-Models ending in .raw</li>
             /// <li>Adds the Names of the Models to the List </li>
             /// <li>Adds the List to the DropDown as available options</li>
             /// </ul>
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-            void Start()
+            private void Start()
             {
 
 #if UNITY_EDITOR
-
-                
-
-                 path = "" + Application.dataPath + "/StreamingAssets/";
-
+                _path = string.Empty + Application.dataPath + "/StreamingAssets/";
 #else
-         string path = "" + Application.dataPath + "/StreamingAssets/";
-
+                string path = string.Empty + Application.dataPath + "/StreamingAssets/";
 #endif
 
-                //Creates a new DropDownlist
-                List<string> dropDownOptions = new List<string>();
+                //Creates a new drop down list
+                var dropDownOptions = new List<string>();
 
                 //Length of the whole path
-                int pathLength = path.Length;
+                var pathLength = _path.Length;
 
                 //Lists all files 
-                foreach (string file in System.IO.Directory.GetFiles(path))
+                foreach (var file in System.IO.Directory.GetFiles(_path))
                 {
-
-                    //Listing just the Rawmodels ending in .raw
+                    //Listing just the Raw models ending in .raw
                     if (file.EndsWith(".raw"))
                     {
-
                         // removes the path and just leaves "Name.raw" 
-                        string file2 = file.Remove(0, pathLength);
+                        var file2 = file.Remove(0, pathLength);
                         file2 = file2.Remove(file2.Length - 4, 4);
+                        
                         //Adds the Names of the Models to the DropDownLists 
                         dropDownOptions.Add(file2);
-
-                        
-
                     }
-
-
-
-
-
                 }
 
                 // Adds the List to the DropDown as available options
-
                 Dropdown.AddOptions(dropDownOptions);
-
-
-
             }
 
         }

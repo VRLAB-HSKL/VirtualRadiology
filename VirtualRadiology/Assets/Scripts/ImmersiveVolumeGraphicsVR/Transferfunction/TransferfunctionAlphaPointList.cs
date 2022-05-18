@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityVolumeRendering;
+
 namespace ImmersiveVolumeGraphics {
+
     namespace Transferfunctions
     {
         public class TransferfunctionAlphaPointList : MonoBehaviour
@@ -24,10 +24,7 @@ namespace ImmersiveVolumeGraphics {
             /// <summary>
             /// The current index of a AlphaPoint
             /// </summary>
-            public static int AlphaPointIndex = 0;
-
-
-
+            public static int AlphaPointIndex;
 
             /// <summary>
             /// Reload the DropDownList
@@ -41,12 +38,10 @@ namespace ImmersiveVolumeGraphics {
             /// <li>Add List to the DropDownMenu</li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-
             public void ReloadList()
             {
-                volobject = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                volobject = FindObjectOfType<VolumeRenderedObject>();
                 DropDown.ClearOptions();
                 DropDownOptions.Clear();
               
@@ -55,13 +50,9 @@ namespace ImmersiveVolumeGraphics {
                     for (int i = 0; i < volobject.transferFunction.alphaControlPoints.Count; i++)
                     {
                         DropDownOptions.Add(i + "");
-
-
                     }
                     DropDown.AddOptions(DropDownOptions);
                 }
-
-               
             }
 
 
@@ -73,16 +64,10 @@ namespace ImmersiveVolumeGraphics {
             /// <li>Set the AlphaPointIndex to the DropDown´s value</li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-
             public void changeIndex()
             {
-
                 AlphaPointIndex = DropDown.value;
-                    
-
-
             }
 
             /// <summary>
@@ -93,21 +78,11 @@ namespace ImmersiveVolumeGraphics {
             /// <li>Returns the current AlphaPointIndex</li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>int</returns>
             public static int getIndex()
             {
-
                 return AlphaPointIndex;
             }
-
-
-
-
-
-
-
-
         }
     }
 }

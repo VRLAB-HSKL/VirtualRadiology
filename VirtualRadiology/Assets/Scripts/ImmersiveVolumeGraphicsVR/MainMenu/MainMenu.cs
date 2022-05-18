@@ -1,13 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ImmersiveVolumeGraphics
 {
-
-
-
     /// <summary>
     /// This class represents the MainMenu for Interaction by clicking Buttons the user can get to submenus
     /// <ul>
@@ -21,32 +16,40 @@ namespace ImmersiveVolumeGraphics
     /// </ul>
     /// </summary>
     public class MainMenu : MonoBehaviour
-        {
-            //MainMenu              | Status 0
-            /// <summary>
-            /// This Button shows the ModelImport-Menu
-            /// </summary>
-            public Button ModelImportButton;
-            /// <summary>
-            /// This Button shows the ModelEdit-Menu
-            /// </summary>
-            public Button ModelEditButton;
+    {
+        // ToDo: Replace this whole logic with a state machine
+        
+        //MainMenu              | Status 0
+        
+        /// <summary>
+        /// This Button shows the ModelImport-Menu
+        /// </summary>
+        public Button ModelImportButton;
+        
+        /// <summary>
+        /// This Button shows the ModelEdit-Menu
+        /// </summary>
+        public Button ModelEditButton;
+
         /// <summary>
         /// This Button shows the Transferfunctions-Menu
         /// </summary>
-            public Button TransferfunctionButton;
-            /// <summary>
-            /// This Button shows the Recorder-Menu
-            /// </summary>
-            public Button RecorderButton;
-            /// <summary>
-            /// This Button shows the Dashboard-Menu
-            /// </summary>
-            public Button DashboardButton;
-            /// <summary>
-            /// This Button shows the About-Menu
-            /// </summary>
-            public Button AboutButton;
+        public Button TransferfunctionButton;
+        
+        /// <summary>
+        /// This Button shows the Recorder-Menu
+        /// </summary>
+        public Button RecorderButton;
+        
+        /// <summary>
+        /// This Button shows the Dashboard-Menu
+        /// </summary>
+        public Button DashboardButton;
+        
+        /// <summary>
+        /// This Button shows the About-Menu
+        /// </summary>
+        public Button AboutButton;
 
         /// <summary>
         /// This empty GameObject(Parent) containts every Object (Children) of the MainMenu
@@ -58,26 +61,31 @@ namespace ImmersiveVolumeGraphics
         /// This empty GameObject(Parent) containts every Object (Children) of the ModelImportmenu
         /// </summary>
         public GameObject ModelImportParent;
+        
         //ModelEdit             | Status 2
         /// <summary>
         /// This empty GameObject(Parent) containts every Object (Children) of the ModelEditmenu
         /// </summary>
         public GameObject ModelEditParent;
+        
         //Transferfunction      | Status 3
         /// <summary>
         /// This empty GameObject(Parent) containts every Object (Children) of the Transferfunctionmenu
         /// </summary>
         public GameObject TransferfunctionParent;
+        
         //Recorder              | Status 4
         /// <summary>
         /// This empty GameObject(Parent) containts every Object (Children) of the Recordermenu
         /// </summary>
         public GameObject RecorderParent;
+        
         //Dashboard             | Status 5
         /// <summary>
         /// This empty GameObject(Parent) containts every Object (Children) of the Dashboardmenu
         /// </summary>
         public GameObject DashboardParent;
+        
         //Info / About          | Status 6
         /// <summary>
         /// This empty GameObject(Parent) containts every Object (Children) of the Aboutmenu
@@ -85,22 +93,21 @@ namespace ImmersiveVolumeGraphics
         public GameObject AboutParent;
 
 
-        //Backbutton to get back to the MainMenu
+        //Back button to get back to the MainMenu
         /// <summary>
-        /// This empty GameObject(Parent) containts the backbtn(Child)
+        /// This empty GameObject(Parent) contains the back button (child)
         /// </summary>
         public GameObject BackButtonParent;
+        
         /// <summary>
         /// Button to get back to the MainMenu
         /// </summary>
         public Button BackButton;
+        
         /// <summary>
         /// This Integer represents the currently visible Menu
         /// </summary>
         public static int Status = 0;
-
-
-
 
         /// <summary>
         /// The Start-Method adds the OnClickListeners(ToStatus) to the corresponding Buttons
@@ -117,29 +124,21 @@ namespace ImmersiveVolumeGraphics
         /// <li>The BackButton             adds ToStatus0</li>
         /// </ul> 
         /// </remarks>
-        /// <param name="void"></param>
         /// <returns>void</returns>
-
         private void Start()
-            {
-
-                //Add Listeners 
-
-                ModelImportButton.onClick.AddListener(ToStatus1);
-                ModelEditButton.onClick.AddListener(ToStatus2);
-                TransferfunctionButton.onClick.AddListener(ToStatus3);
-                RecorderButton.onClick.AddListener(ToStatus4);
-                DashboardButton.onClick.AddListener(ToStatus5);
-                AboutButton.onClick.AddListener(ToStatus6);
-                BackButton.onClick.AddListener(ToStatus0);
-
-
-
-
-
-            }
+        {
+            //Add Listeners 
+            ModelImportButton.onClick.AddListener(ToStatus1);
+            ModelEditButton.onClick.AddListener(ToStatus2);
+            TransferfunctionButton.onClick.AddListener(ToStatus3);
+            RecorderButton.onClick.AddListener(ToStatus4);
+            DashboardButton.onClick.AddListener(ToStatus5);
+            AboutButton.onClick.AddListener(ToStatus6);
+            BackButton.onClick.AddListener(ToStatus0);
+        }
 
         //MainMenu  
+        
         /// <summary>
         ///  OnClickListener to return to the MainMenu
         /// </summary>
@@ -157,27 +156,22 @@ namespace ImmersiveVolumeGraphics
         /// <li>Set the Status to 0</li>
         /// </ul> 
         /// </remarks>
-        /// <param name="void"></param>
         /// <returns>void</returns>
-
-
-
         public void ToStatus0()
-            {
-                
-                BackButtonParent.SetActive(false);
+        {
+            BackButtonParent.SetActive(false);
 
-                if (ModelImportParent.active == true) { ModelImportParent.SetActive(false); }
-                if (ModelEditParent.active == true) { ModelEditParent.SetActive(false); }
-                if (TransferfunctionParent.active == true) { TransferfunctionParent.SetActive(false); }
-                if (RecorderParent.active == true) { RecorderParent.SetActive(false); }
-                if (DashboardParent.active == true) { DashboardParent.SetActive(false); }
-                if (AboutParent.active == true) { AboutParent.SetActive(false); }
+            if (ModelImportParent.active) { ModelImportParent.SetActive(false); }
+            if (ModelEditParent.active) { ModelEditParent.SetActive(false); }
+            if (TransferfunctionParent.active) { TransferfunctionParent.SetActive(false); }
+            if (RecorderParent.active) { RecorderParent.SetActive(false); }
+            if (DashboardParent.active) { DashboardParent.SetActive(false); }
+            if (AboutParent.active) { AboutParent.SetActive(false); }
 
-                MainMenuParent.SetActive(true);
+            MainMenuParent.SetActive(true);
 
-                Status = 0;
-            }
+            Status = 0;
+        }
 
         //ModelImport 
       
@@ -197,15 +191,13 @@ namespace ImmersiveVolumeGraphics
         /// <returns>void</returns>
 
         public void ToStatus1()
-            {
-
+        {
             MainMenuParent.SetActive(false);
             BackButtonParent.SetActive(true);
             ModelImportParent.SetActive(true);
 
             Status = 1;
-
-            }
+        }
 
         /// <summary>
         ///  OnClickListener to return to the ModelEditMenu
@@ -219,18 +211,15 @@ namespace ImmersiveVolumeGraphics
         /// <li>Set Status to 2 </li>
         /// </ul> 
         /// </remarks>
-        /// <param name="void"></param>
         /// <returns>void</returns>
-
-
         public void ToStatus2()
-            {
+        {
             MainMenuParent.SetActive(false);
             BackButtonParent.SetActive(true);
             ModelEditParent.SetActive(true);
 
-                Status = 2;
-            }
+            Status = 2;
+        }
 
 
         /// <summary>
@@ -245,22 +234,18 @@ namespace ImmersiveVolumeGraphics
         /// <li>Set Status to 3 </li>
         /// </ul> 
         /// </remarks>
-        /// <param name="void"></param>
         /// <returns>void</returns>
-
         public void ToStatus3()
-            {
+        {
             MainMenuParent.SetActive(false);
             BackButtonParent.SetActive(true);
             TransferfunctionParent.SetActive(true);
 
-                Status = 3;
-
-            }
+            Status = 3;
+        }
+        
         //Recorder 
-
-
-
+        
         /// <summary>
         ///  OnClickListener to return to the RecorderMenu
         /// </summary>
@@ -273,21 +258,18 @@ namespace ImmersiveVolumeGraphics
         /// <li>Set Status to 4 </li>
         /// </ul> 
         /// </remarks>
-        /// <param name="void"></param>
         /// <returns>void</returns>
-
         public void ToStatus4()
-            {
+        {
             MainMenuParent.SetActive(false);
             BackButtonParent.SetActive(true);
             RecorderParent.SetActive(true);
 
-                Status = 4;
-            }
+            Status = 4;
+        }
+        
         //Dashboard  
-
-
-
+        
         /// <summary>
         ///  OnClickListener to return to the DashboardMenu
         /// </summary>
@@ -300,20 +282,18 @@ namespace ImmersiveVolumeGraphics
         /// <li>Set Status to 5 </li>
         /// </ul> 
         /// </remarks>
-        /// <param name="void"></param>
         /// <returns>void</returns>
-
         public void ToStatus5()
-            {
+        {
             MainMenuParent.SetActive(false);
             BackButtonParent.SetActive(true);
             DashboardParent.SetActive(true);
 
-                Status = 5;
-            }
+            Status = 5;
+        }
 
+        
         //Info / About
-
 
         /// <summary>
         ///  OnClickListener to return to the AboutMenu
@@ -331,21 +311,14 @@ namespace ImmersiveVolumeGraphics
         /// <returns>void</returns>
 
         public void ToStatus6()
-            {
+        {
             MainMenuParent.SetActive(false);
             BackButtonParent.SetActive(true);
             AboutParent.SetActive(true);
 
-                Status = 6;
-
-            }
-
-
-
-
+            Status = 6;
         }
-
-
-
+        
     }
+}
 

@@ -21,24 +21,24 @@ namespace UnityVolumeRendering
         private class DICOMSliceFile
         {
             public AcrNemaFile file;
-            public float location = 0;
-            public float intercept = 0.0f;
+            public float location;
+            public float intercept;
             public float slope = 1.0f;
         }
 
-        private string diroctoryPath;
+        private string _directoryPath;
         private bool recursive;
 
-        public DICOMImporter(string diroctoryPath, bool recursive)
+        public DICOMImporter(string directoryPath, bool recursive)
         {
-            this.diroctoryPath = diroctoryPath;
+            _directoryPath = directoryPath;
             this.recursive = recursive;
         }
 
         public override VolumeDataset Import()
         {
-            DataElementDictionary dataElementDictionary = new DataElementDictionary();
-            UidDictionary uidDictionary = new UidDictionary();
+            var dataElementDictionary = new DataElementDictionary();
+            var uidDictionary = new UidDictionary();
             try
             {
                 dataElementDictionary.LoadFrom(Path.Combine(Application.streamingAssetsPath, "dicom-elements-2007.dic"), DictionaryFileFormat.BinaryFile);
@@ -51,7 +51,7 @@ namespace UnityVolumeRendering
             }
 
             // Read all files
-            IEnumerable<string> fileCandidates = Directory.EnumerateFiles(diroctoryPath, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+            IEnumerable<string> fileCandidates = Directory.EnumerateFiles(_directoryPath, "*.*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                 .Where(p => p.EndsWith(".dcm") || p.EndsWith(".dicom") || p.EndsWith(".dicm"));
             List<DICOMSliceFile> files = new List<DICOMSliceFile>();
             foreach (string filePath in fileCandidates)
@@ -60,6 +60,7 @@ namespace UnityVolumeRendering
                 if(sliceFile != null)
                     files.Add(sliceFile);
             }
+            
             // Sort files by slice location
             files.Sort((DICOMSliceFile a, DICOMSliceFile b) => { return a.location.CompareTo(b.location); });
 
@@ -77,7 +78,7 @@ namespace UnityVolumeRendering
 
             // Create dataset
             VolumeDataset dataset = new VolumeDataset();
-            dataset.name = Path.GetFileName(Path.GetDirectoryName(diroctoryPath));
+            dataset.name = Path.GetFileName(Path.GetDirectoryName(_directoryPath));
             dataset.dimX = files[0].file.PixelData.Columns;
             dataset.dimY = files[0].file.PixelData.Rows;
             dataset.dimZ = files.Count;

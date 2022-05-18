@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ImmersiveVolumeGraphics.ModelImport;
 using UnityEngine;
 using UnityVolumeRendering;
-using ImmersiveVolumeGraphics.ModelImport;
+
 namespace ImmersiveVolumeGraphics
 {
     namespace Transferfunctions
@@ -24,14 +23,12 @@ namespace ImmersiveVolumeGraphics
             /// <li>Save the Transferfunction</li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-            /// 
             public void SaveTransferFunction()
             {
-              
                 // Find the VolumeObject
-                VolumeRenderedObject volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                var volumeObject = FindObjectOfType<VolumeRenderedObject>();
+                
                 // Check if the  VolumeObject exists
                 if (volumeObject != null)
                 {
@@ -45,12 +42,8 @@ namespace ImmersiveVolumeGraphics
                         TransferFunctionDatabase.SaveTransferFunction(newTF, filePath);
 
                 }
-
-
             }
-
-
-
+            
         }
     }
 }

@@ -1017,10 +1017,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   XDirection: 0
   YDirection: 0
-  ZDirection: 0
+  ZDirection: 1
   OffsetX: 0
   OffsetY: 0
-  OffsetZ: 0
+  OffsetZ: 0.45
   StartPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &68148441
 GameObject:
@@ -17520,8 +17520,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7294fad05512aae4086f9bc00c00ce67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_activeButton: 0
-  ButtonDownDisplacement: {x: 0, y: -0.02, z: 0}
+  mActiveButton: 0
+  buttonDownDisplacement: {x: 0, y: -0.02, z: 0}
   ObjectDisplacement: {x: 0, y: -0.05, z: 0}
   ButtonObject: {fileID: 984035636}
 --- !u!4 &1056332909
@@ -19189,10 +19189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc2b6994f67a524f9b2698de23566db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XDirection: 0
+  XDirection: 1
   YDirection: 0
   ZDirection: 0
-  OffsetX: 0
+  OffsetX: 0.45
   OffsetY: 0
   OffsetZ: 0
   StartPosition: {x: 0, y: 0, z: 0}
@@ -24384,7 +24384,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1644118857}
         m_TargetAssemblyTypeName: ImmersiveVolumeGraphics.ModelEdit.VREditVisiblity,
           Assembly-CSharp
-        m_MethodName: EditMinVisiblity
+        m_MethodName: EditMinVisibility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26324,7 +26324,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1807898464}
         m_TargetAssemblyTypeName: 
-        m_MethodName: EnableIsosurfaceRendering
+        m_MethodName: EnableIsoSurfaceRendering
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27143,7 +27143,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1868299125}
         m_TargetAssemblyTypeName: ImmersiveVolumeGraphics.ModelEdit.VREditVisiblity,
           Assembly-CSharp
-        m_MethodName: EditMaxVisiblity
+        m_MethodName: EditMaxVisibility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30165,7 +30165,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2101455651}
-  - component: {fileID: 2101455652}
   m_Layer: 0
   m_Name: MainMenu
   m_TagString: Untagged
@@ -30199,18 +30198,6 @@ Transform:
   m_Father: {fileID: 227917254}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2101455652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101455650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fce7114ea9599924fbcb4580729d114b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2121800851
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace UnityVolumeRendering
 {
+    /// <summary>
+    /// Runtime filebrowser.
+    /// Opens a save/load file/directory browser that can be used during play-mode.
+    /// </summary>
     public partial class RuntimeFileBrowser
     {
         /// <summary>

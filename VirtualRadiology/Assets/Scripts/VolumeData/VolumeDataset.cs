@@ -1,7 +1,6 @@
 ﻿using ImmersiveVolumeGraphics.ModelImport;
 using System;
 using System.Collections;
-using System.IO;
 using UnityEngine;
 
 namespace UnityVolumeRendering
@@ -31,11 +30,9 @@ namespace UnityVolumeRendering
                 Debug.Log("Creating texture internally!");
                 // dataTexture = Resources.Load("Models/"+ImportRAWModel.ModelPath ) as Texture3D;
                  dataTexture = CreateTextureInternal();
-                //
-
+                
             }
-
-
+            
             return dataTexture;
         }
 
@@ -54,8 +51,6 @@ namespace UnityVolumeRendering
 
             texture(dataTexture);
         }
-
-
 
         public Texture3D GetGradientTexture()
         {
@@ -103,68 +98,52 @@ namespace UnityVolumeRendering
             int maxValue = GetMaxDataValue();
             int maxRange = maxValue - minValue;
 
-
-
-
             if (dimZ > 500)
             {
                 for (int x = 0; x < dimX; x++)
-                    {
-                        for (int y = 0; y < dimY; y++)
-                        {
-                            for (int z = 0; z < (dimZ / 2) - 1; z++)
-                            {
-                                int iData = x + y * dimX + z * (dimX * dimY);
-                                texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
-                            }
-
-                            for (int z = dimZ / 2; z < dimZ; z++)
-                            {
-                                int iData = x + y * dimX + z * (dimX * dimY);
-                                texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
-                            }
-
-
-
-
-
-
-                        }
-                    }
-
-                    texture.Apply();
-                    return texture;
-
-
-                }
-
-                else
                 {
-
-
-                    Color[] cols = new Color[data.Length];
-
-                    for (int x = 0; x < dimX; x++)
+                    for (int y = 0; y < dimY; y++)
                     {
-                        for (int y = 0; y < dimY; y++)
+                        for (int z = 0; z < (dimZ / 2) - 1; z++)
                         {
-                            for (int z = 0; z < dimZ; z++)
-                            {
-                                int iData = x + y * dimX + z * (dimX * dimY);
-                                // cols[iData] = new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f);
-                                texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
-                            }
+                            int iData = x + y * dimX + z * (dimX * dimY);
+                            texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
+                        }
+
+                        for (int z = dimZ / 2; z < dimZ; z++)
+                        {
+                            int iData = x + y * dimX + z * (dimX * dimY);
+                            texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
                         }
                     }
-
-                    //texture.SetPixels(cols);
-
-                    texture.Apply();
-                    return texture;
                 }
 
-              
-            
+                texture.Apply();
+                return texture;
+            }
+            else
+            {
+                var cols = new Color[data.Length];
+
+                for (int x = 0; x < dimX; x++)
+                {
+                    for (int y = 0; y < dimY; y++)
+                    {
+                        for (int z = 0; z < dimZ; z++)
+                        {
+                            int iData = x + y * dimX + z * (dimX * dimY);
+                            // cols[iData] = new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f);
+                            texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
+                        }
+                    }
+                }
+
+                //texture.SetPixels(cols);
+
+                texture.Apply();
+                return texture;
+            }
+
             return null;
         }
 
@@ -197,12 +176,6 @@ namespace UnityVolumeRendering
                             int iData = x + y * dimX + z * (dimX * dimY);
                             texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
                         }
-
-
-
-
-
-
                     }
 
                     Debug.Log("texture x=" + x + "/" + dimX);
@@ -212,12 +185,9 @@ namespace UnityVolumeRendering
                 texture.Apply();
                 tex(texture);
             }
-
             else
             {
-
-
-                Color[] cols = new Color[data.Length];
+                var cols = new Color[data.Length];
 
                 for (int x = 0; x < dimX; x++)
                 {

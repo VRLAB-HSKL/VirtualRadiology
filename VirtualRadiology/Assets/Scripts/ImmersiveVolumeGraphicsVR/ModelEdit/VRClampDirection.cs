@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 namespace ImmersiveVolumeGraphics {
 
@@ -14,10 +10,8 @@ namespace ImmersiveVolumeGraphics {
         /// <summary>
         /// This class clamps the position of the Sliders that users cannot grab them out of the Object
         /// </summary>
-        
         public class VRClampDirection : MonoBehaviour
         {
-           
             /// <summary>
             /// Boolean to check if the clamping should happen in x-Direction
             /// </summary>
@@ -47,95 +41,80 @@ namespace ImmersiveVolumeGraphics {
             /// </summary>
             public Vector3 StartPosition;
 
-           
-
             /// <summary>
-            ///  Sets the Startposition
+            ///  Sets the start position
             /// </summary>
             /// <remarks> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-            void Start()
+            private void Start()
             {
-                StartPosition = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+                var position = transform.position;
+                StartPosition = new Vector3(position.x, position.y, position.z);
+                
+                // ToDo: Calculate offset based on border bounding boxes to make it more exact
             }
 
-            // Update is called once per frame
             /// <summary>
-            /// Checks in which direction the clamping should occur and then applies clamping to the GameObject
-            /// </summary>
-            /// 
-
-
-            /// <summary>
-            /// Applies Clamping to a GameObject
+            /// Applies clamping to a GameObject
             /// </summary>
             /// <remarks>
             /// <ul>
             /// <li>Checks in which direction the clamping should occur</li>
-            /// <li>Applies clamping to the GameObject considering the Offsetvalue on every Frame</li>
+            /// <li>Applies clamping to the GameObject considering the offset value on every frame</li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-            void Update()
+            private void Update()
             {
+                var localPosition = gameObject.transform.localPosition;
+                
                 if (XDirection)
                 {
-                    if (this.gameObject.transform.localPosition.x >= StartPosition.x + OffsetX)
-                    { this.gameObject.transform.localPosition = new Vector3(StartPosition.x + OffsetX, this.gameObject.transform.localPosition.y, this.gameObject.transform.localPosition.z); }
+                    if (localPosition.x >= StartPosition.x + OffsetX)
+                    {
+                        localPosition = new Vector3(StartPosition.x + OffsetX, 
+                                localPosition.y, 
+                                localPosition.z);
+                        
+                    }
 
-                    if (this.gameObject.transform.localPosition.x <= StartPosition.x - OffsetX)
-                    { this.gameObject.transform.localPosition = new Vector3(StartPosition.x - OffsetX, this.gameObject.transform.localPosition.y, this.gameObject.transform.localPosition.z); }
-
-
+                    if (localPosition.x <= StartPosition.x - OffsetX)
+                    {
+                        localPosition = new Vector3(StartPosition.x - OffsetX, 
+                            localPosition.y, localPosition.z);
+                        
+                    }
                 }
-
-
-
 
                 if (YDirection)
                 {
+                    if (localPosition.y >= StartPosition.y + OffsetY)
+                    {
+                        localPosition = new Vector3(localPosition.x, StartPosition.y + OffsetY, localPosition.z);
+                    }
 
-
-                    if (this.gameObject.transform.localPosition.y >= StartPosition.y + OffsetY)
-                    { this.gameObject.transform.localPosition = new Vector3(this.gameObject.transform.localPosition.x, StartPosition.y + OffsetY, this.gameObject.transform.localPosition.z); }
-
-                    if (this.gameObject.transform.localPosition.y <= StartPosition.y - OffsetY)
-                    { this.gameObject.transform.localPosition = new Vector3(this.gameObject.transform.localPosition.x, StartPosition.y - OffsetY, this.gameObject.transform.localPosition.z); }
-
+                    if (localPosition.y <= StartPosition.y - OffsetY)
+                    {
+                        localPosition = new Vector3(localPosition.x, StartPosition.y - OffsetY, localPosition.z);
+                    }
                 }
-
-
-
 
                 if (ZDirection)
                 {
-                    if (this.gameObject.transform.localPosition.z >= StartPosition.z + OffsetZ)
-                    { this.gameObject.transform.localPosition = new Vector3(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y + OffsetY, StartPosition.z + OffsetZ); }
+                    if (localPosition.z >= StartPosition.z + OffsetZ)
+                    {
+                        localPosition = new Vector3(localPosition.x, localPosition.y, StartPosition.z + OffsetZ);
+                    }
 
-                    if (this.gameObject.transform.localPosition.z <= StartPosition.z - OffsetZ)
-                    { this.gameObject.transform.localPosition = new Vector3(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y - OffsetY, StartPosition.z - OffsetZ); }
-
-
+                    if (localPosition.z <= StartPosition.z - OffsetZ)
+                    {
+                        localPosition = new Vector3(localPosition.x, localPosition.y, StartPosition.z - OffsetZ);
+                    }
                 }
 
-
-
-
-
-
-
-
-
-
+                gameObject.transform.localPosition = localPosition;
             }
-
-
-
-
-
 
         }
 

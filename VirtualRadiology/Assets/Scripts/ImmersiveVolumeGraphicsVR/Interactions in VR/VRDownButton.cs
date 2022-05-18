@@ -1,36 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using HTC.UnityPlugin.ColliderEvent;
-using HTC.UnityPlugin.Utility;
+using UnityEngine.Serialization;
 using UnityVolumeRendering;
-
 
 
 namespace ImmersiveVolumeGraphics
 {
     /// <summary>
-    /// This namespace containts all VR-Interactioncomponents:  Buttons, Handles etc.
+    /// This namespace containts all VR-Interactioncomponents: Buttons, Handles etc.
     /// </summary>
     namespace Interactions
     {
-
         /// <summary>
-        /// This class handles Logic of the Downbutton
+        /// This class handles Logic of the Down button
         /// </summary>
-        public class VRDownButton : MonoBehaviour, IColliderEventPressEnterHandler
-            , IColliderEventPressExitHandler
+        public class VRDownButton : MonoBehaviour, IColliderEventPressEnterHandler, IColliderEventPressExitHandler
         {
-
-            [SerializeField]
-            private ColliderButtonEventData.InputButton m_activeButton = ColliderButtonEventData.InputButton.Trigger;
-
+            
+            [FormerlySerializedAs("m_activeButton")] [SerializeField]
+            private ColliderButtonEventData.InputButton mActiveButton = ColliderButtonEventData.InputButton.Trigger;
 
             /// <summary>
             /// This Vector shows how much the Button will be displaced while pressing
             /// </summary>
-            public Vector3 ButtonDownDisplacement;
-
+            [FormerlySerializedAs("ButtonDownDisplacement")] public Vector3 buttonDownDisplacement;
 
             /// <summary>
             /// This Vector shows how much the 3D-Model will be displaced while pressing
@@ -40,42 +33,47 @@ namespace ImmersiveVolumeGraphics
             /// This is the Buttonobject
             /// </summary>
             public Transform ButtonObject;
+            
             /// <summary>
             /// 
             /// </summary>
-            private bool getDownwards = false;
+            private bool _getDownwards;
 
             /// <summary>
             /// The current 3D-Model 
             /// </summary>
-            private VolumeRenderedObject volumeObject;
+            private VolumeRenderedObject _volumeObject;
+            
             /// <summary>
-            /// The Base of the Console
+            /// The base of the Console
             /// </summary>
-            private GameObject consoleBase;
+            private GameObject _consoleBase;
+            
             /// <summary>
-            /// Sidepanels without the Sliders
+            /// Side panels without the Sliders
             /// </summary>
-            private GameObject regulator1;
+            private GameObject _regulator1;
+            
             /// <summary>
-            /// Sidepanels without the Sliders
+            /// Side panels without the Sliders
             /// </summary>
-            private GameObject regulator2;
+            private GameObject _regulator2;
+            
             /// <summary>
-            /// Sidepanels without the Sliders
+            /// Side panels without the Sliders
             /// </summary>
-            private GameObject regulator3;
+            private GameObject _regulator3;
+            
             /// <summary>
             /// 
             /// </summary>
-            private GameObject sliceRenderer;
+            private GameObject _sliceRenderer;
 
 
             /// <summary>
             /// Finding the GameObjects in the Scene
             /// </summary>
             /// <remarks>
-            /// 
             /// <ul>
             /// <li>Finding the  consoleBase</li>
             /// <li>Finding the left Regulator</li>
@@ -86,28 +84,25 @@ namespace ImmersiveVolumeGraphics
             /// <param name="void"></param>
             /// <returns>void</returns>
             /// 
-            void Start()
+            private void Start()
             {
-
-                consoleBase = GameObject.Find("ConsoleBase");
-                regulator1 = GameObject.Find("Regulator");
-                regulator2 = GameObject.Find("Regulator (1)");
-                regulator3 = GameObject.Find("Regulator (2)");
-                sliceRenderer = GameObject.Find("EditSliceRenderer3");
-
+                _consoleBase = GameObject.Find("ConsoleBase");
+                _regulator1 = GameObject.Find("Regulator");
+                _regulator2 = GameObject.Find("Regulator (1)");
+                _regulator3 = GameObject.Find("Regulator (2)");
+                _sliceRenderer = GameObject.Find("EditSliceRenderer3");
             }
 
-
-
-
             /// <summary>
-            /// Handles the buttonpress when the object is entered
+            /// Handles the button press when the object is entered
             /// </summary>
             /// <remarks>
             /// Behaviour when the Button is pressed:
             /// <ul>
             /// 
-            /// <li>The lower part of the Button will be displaced depending on the value of buttonDownDisplacement </li>
+            /// <li>
+            /// The lower part of the Button will be displaced depending on the value of buttonDownDisplacement
+            /// </li>
             /// <li>Finding the current VolumeObject</li>
             /// <li>Downward-Movement (getDownwards) will be enabled</li>
             /// </ul> 
@@ -116,22 +111,13 @@ namespace ImmersiveVolumeGraphics
             /// <returns>void</returns>
             public void OnColliderEventPressEnter(ColliderButtonEventData eventData)
             {
-                if (eventData.button == m_activeButton)
+                if (eventData.button == mActiveButton)
                 {
-                    volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
-
-                    ButtonObject.localPosition += ButtonDownDisplacement;
-                    getDownwards = true;
-
-
-
-
-
+                    _volumeObject = FindObjectOfType<VolumeRenderedObject>();
+                    ButtonObject.localPosition += buttonDownDisplacement;
+                    _getDownwards = true;
                 }
             }
-
-          
-
 
             /// <summary>
             /// Handles the buttonpress when the object is exited
@@ -146,60 +132,43 @@ namespace ImmersiveVolumeGraphics
             /// </remarks>
             /// <param name="eventData"></param>
             /// <returns>void</returns>
-
             public void OnColliderEventPressExit(ColliderButtonEventData eventData)
             {
-                ButtonObject.localPosition -= ButtonDownDisplacement;
-                getDownwards = false;
+                ButtonObject.localPosition -= buttonDownDisplacement;
+                _getDownwards = false;
             }
-
-
-
-            // Update is called once per frame
 
             /// <summary>
             /// Handles the ObjectDisplacement
             /// </summary>
             /// <remarks>
-            /// Behaviour when Downward-Movement is enabled, the VolumeObject is not null and the localPosition of the consoleBase is greater than -1.3 (Bottomposition)
+            /// Behaviour when Downward-Movement is enabled, the VolumeObject is not null and the localPosition of the
+            /// console base is greater than -1.3 (bottom position)
             /// <ul>
-            /// <li>The ConsoleBase, the Regulators and the 3D-Model wll be displaced depending on objectDisplacement and Time.deltaTime every Frame</li>
+            /// <li>The console base, the regulators and the 3D-Model will be displaced depending on objectDisplacement
+            /// and Time.deltaTime every Frame</li>
             /// </ul> 
             /// </remarks>
             /// <param name="eventData"></param>
             /// <returns>void</returns>
-            void Update()
+            private void Update()
             {
-                if (getDownwards)
+                if (_getDownwards)
                 {
-                    if (volumeObject != null)
+                    if (_volumeObject != null)
                     {
-
-                        if (consoleBase.transform.localPosition.y > -1.3f)
+                        if (_consoleBase.transform.localPosition.y > -1.3f)
                         {
-
-                            consoleBase.transform.localPosition += ObjectDisplacement * Time.deltaTime;
-                            regulator1.transform.localPosition += ObjectDisplacement * Time.deltaTime;
-                            regulator2.transform.localPosition += ObjectDisplacement * Time.deltaTime;
-                            regulator3.transform.localPosition += ObjectDisplacement * Time.deltaTime;
-                            sliceRenderer.transform.localPosition += ObjectDisplacement * Time.deltaTime;
-                            volumeObject.transform.localPosition += ObjectDisplacement * Time.deltaTime; ;
-                            //Debug.Log("runter");
-
+                            _consoleBase.transform.localPosition += ObjectDisplacement * Time.deltaTime;
+                            _regulator1.transform.localPosition += ObjectDisplacement * Time.deltaTime;
+                            _regulator2.transform.localPosition += ObjectDisplacement * Time.deltaTime;
+                            _regulator3.transform.localPosition += ObjectDisplacement * Time.deltaTime;
+                            _sliceRenderer.transform.localPosition += ObjectDisplacement * Time.deltaTime;
+                            _volumeObject.transform.localPosition += ObjectDisplacement * Time.deltaTime;
                         }
-
-
-
-                       
-
                     }
-
-
                 }
             }
-
-
-
         }
     }
 }

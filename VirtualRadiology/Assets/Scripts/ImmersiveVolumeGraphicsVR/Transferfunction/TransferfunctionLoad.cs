@@ -1,21 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityVolumeRendering;
 
-
-namespace ImmersiveVolumeGraphics { 
+namespace ImmersiveVolumeGraphics {
+    
     namespace Transferfunctions {
 
-
         /// <summary>
-        /// Loads a transferfunction from filepath and updates the corresponding transferfunction and  materials 
+        /// Loads a transfer function from filepath and updates the corresponding transfer function and  materials 
         /// </summary>
-
         public class TransferfunctionLoad : MonoBehaviour
-    {
+        {
 
             /// <summary>
             /// The DropDown-Object of the TransferfunctionMenu
@@ -38,8 +34,6 @@ namespace ImmersiveVolumeGraphics {
             /// </summary>
             private Material sliceRendererMat = null;
 
-
-
             /// <summary>
             /// Loads a transferfunction from filepath and updates the corresponding transferfunction and  materials  
             /// </summary>
@@ -57,68 +51,52 @@ namespace ImmersiveVolumeGraphics {
             /// </remarks>
             /// <param name="void"></param>
             /// <returns>void</returns>
-            public void load() {
-
+            public void load() 
+            {
                 //Path in the Project for the Transferfunctions
                 FilePath = Application.dataPath + "/StreamingAssets/TransferFunctions/" + dropdown.options[dropdown.value].text + ".tf";
-
-
 
                 //Finding our VolumeObject
                 volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
 
-
-
-
-            if (volumeObject != null)
-            {
-                if (FilePath != "")
+                if (volumeObject != null)
                 {
-                    //Helperfunction of the UnityVolumeRendering-Project to Load the Transferfunction
-                    TransferFunction newTF = TransferFunctionDatabase.LoadTransferFunction(FilePath);
-                    if (newTF != null)
-                            //Sets the new Transferfunction for our VolumeObject
-                            volumeObject.transferFunction = newTF;
-                        //Update to Render 1 dimensional Transferfunctions
-                        volumeObject.SetTransferFunctionMode(TFRenderMode.TF1D);
+                    if (FilePath != "")
+                    {
+                        //Helperfunction of the UnityVolumeRendering-Project to Load the Transferfunction
+                        TransferFunction newTF = TransferFunctionDatabase.LoadTransferFunction(FilePath);
+                        if (newTF != null)
+                                //Sets the new Transferfunction for our VolumeObject
+                                volumeObject.transferFunction = newTF;
+                            //Update to Render 1 dimensional Transferfunctions
+                            volumeObject.SetTransferFunctionMode(TFRenderMode.TF1D);
 
+                        //Updates Histogramm and Transferfunctionviewer according to newest Transferfunction
+                        Histogramm.LoadHistogramm();
 
-                    //Updates Histogramm and Transferfunctionviewer according to newest Transferfunction
-                    Histogramm.LoadHistogramm();
+                        /*
+                        GameObject ImageViewer = GameObject.Find("ImageViewer1");
+                        GameObject ImageViewer2 = GameObject.Find("ImageViewer2");
+                        GameObject ImageViewer3 = GameObject.Find("ImageViewer3");
 
-                    /*
-                    GameObject ImageViewer = GameObject.Find("ImageViewer1");
-                    GameObject ImageViewer2 = GameObject.Find("ImageViewer2");
-                    GameObject ImageViewer3 = GameObject.Find("ImageViewer3");
+                        ImageViewer.GetComponent<MeshRenderer>().material.SetTexture("_TFTex", newTF.GetTexture());
+                        ImageViewer2.GetComponent<MeshRenderer>().material.SetTexture("_TFTex", newTF.GetTexture());
+                        ImageViewer3.GetComponent<MeshRenderer>().material.SetTexture("_TFTex", newTF.GetTexture());
+                        */
 
-                    ImageViewer.GetComponent<MeshRenderer>().material.SetTexture("_TFTex", newTF.GetTexture());
-                    ImageViewer2.GetComponent<MeshRenderer>().material.SetTexture("_TFTex", newTF.GetTexture());
-                    ImageViewer3.GetComponent<MeshRenderer>().material.SetTexture("_TFTex", newTF.GetTexture());
-                    */
+                        //Find the Slicing Planes
+                        var slicingPlane1 = GameObject.Find("SlicingPlane1");
+                        var slicingPlane2 = GameObject.Find("SlicingPlane2");
+                        var slicingPlane3 = GameObject.Find("SlicingPlane3");
 
-                    //Find the Slicing Planes
-                    GameObject slicingPlane1 = GameObject.Find("SlicingPlane1");
-                    GameObject slicingPlane2 = GameObject.Find("SlicingPlane2");
-                    GameObject slicingPlane3 = GameObject.Find("SlicingPlane3");
-
-                    //Sets new Texture to SlicingPlanes' Material 
-                    slicingPlane1.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
-                    slicingPlane2.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
-                    slicingPlane3.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
-
-
-
+                        //Sets new Texture to SlicingPlanes' Material 
+                        slicingPlane1.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
+                        slicingPlane2.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
+                        slicingPlane3.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
+                    }
                 }
             }
-
-
-
-
-
+            
         }
-
-
     }
-  }
-
 }

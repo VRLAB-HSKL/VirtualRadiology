@@ -1,5 +1,4 @@
-﻿
-using System.IO;
+﻿using System.IO;
 
 namespace UnityVolumeRendering
 {
@@ -9,10 +8,9 @@ namespace UnityVolumeRendering
         Raw,
         DICOM
     }
-
+    
     public class DatasetImporterUtility
     {
-
         public static DatasetType GetDatasetType(string filePath)
         {
             DatasetType datasetType;

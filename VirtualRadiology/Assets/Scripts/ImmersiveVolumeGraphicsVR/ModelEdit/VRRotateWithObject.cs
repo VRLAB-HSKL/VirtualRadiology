@@ -1,17 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ImmersiveVolumeGraphics {
+    
     namespace ModelEdit
     {
         /// <summary>
         /// Rotate an GameObject in relation to another GameObject, this script is needed for the RotatableTable
         /// </summary>
         /// 
-
-
         /// <seealso>
         /// <ul>
         /// <li>Sources:</li>
@@ -49,7 +45,6 @@ namespace ImmersiveVolumeGraphics {
             /// </summary>
             public bool ZDirection;
 
-
             /// <summary>
             /// Find both Objects in the Scene
             /// </summary>
@@ -57,18 +52,14 @@ namespace ImmersiveVolumeGraphics {
             /// </remarks>
             /// <param name="void"></param>
             /// <returns>void</returns>
-            void Start()
+            private void Start()
             {
-                //
                 Object1 = GameObject.Find(ObjectName1);
                 Object2 = GameObject.Find(ObjectName2);
-
             }
 
-            // Update is called once per frame
-
             /// <summary>
-            /// Change the rotation  of the second GameObject in relation of the first GameObject
+            /// Change the rotation of the second GameObject in relation of the first GameObject
             /// </summary>
             /// <remarks>
             /// <ul>
@@ -79,51 +70,34 @@ namespace ImmersiveVolumeGraphics {
             /// <li>Find  the Objects when the first Object doesnt exist (updating Objectreference)  </li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-
-            void Update()
+            private void Update()
             {
-                // obj.transform.position = this.transform.position;
                 if (Object1 != null && Object2 != null)
                 {
-
-
                     if (ZDirection)
                     {
-
-
-                        Vector3 rotation = new Vector3(0.0f, 0.0f, Object1.transform.eulerAngles.z);
+                        var rotation = new Vector3(0.0f, 0.0f, Object1.transform.eulerAngles.z);
                         Object2.transform.rotation = Quaternion.Euler(rotation);
-
                     }
 
                     if (XDirection)
                     {
-
-                        Vector3 rotation = new Vector3(Object1.transform.eulerAngles.y, 0.0f, 0.0f);
+                        var rotation = new Vector3(Object1.transform.eulerAngles.y, 0.0f, 0.0f);
                         Object2.transform.rotation = Quaternion.Euler(rotation);
-
                     }
 
                     if (YDirection)
                     {
-
-                        Vector3 rotation = new Vector3(Object2.transform.eulerAngles.x, Object1.transform.eulerAngles.y * 2, Object2.transform.eulerAngles.z);
+                        var eulerAngles = Object2.transform.eulerAngles;
+                        var rotation = new Vector3(eulerAngles.x, Object1.transform.eulerAngles.y * 2, eulerAngles.z);
                         Object2.transform.rotation = Quaternion.Euler(rotation);
-
-
                     }
-
-
-
                 }
                 else
                 {
-
                     Object1 = GameObject.Find(ObjectName1);
                     Object2 = GameObject.Find(ObjectName2);
-
                 }
             }
 
@@ -141,30 +115,27 @@ namespace ImmersiveVolumeGraphics {
             /// <param name="name2"></param>
             /// <param name="dir"></param>
             /// <returns>void</returns>
-            public void initObj(string name1, string name2, string dir)
+            public void InitObj(string name1, string name2, string dir)
             {
+                // ToDo: Maybe use enum for direction values instead of raw strings
+                
                 ObjectName1 = name1;
                 ObjectName2 = name2;
-
 
                 if (dir.Equals("x"))
                 {
                    XDirection = true;
-
                 }
 
                 if (dir.Equals("y"))
                 {
                     YDirection = true;
-
                 }
-
+                
                 if (dir.Equals("z"))
                 {
                     ZDirection = true;
-
                 }
-
             }
 
         }

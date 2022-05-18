@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using ImmersiveVolumeGraphics.ModelImport;
-using UnityVolumeRendering;
+﻿using UnityEngine;
 using TMPro;
 
 namespace ImmersiveVolumeGraphics {
 
     namespace ModelImport
     {
-
         public class LoadModelPath : MonoBehaviour
         {
             /// <summary>
@@ -40,16 +33,15 @@ namespace ImmersiveVolumeGraphics {
             /// <li>Read the DICOM-Information</li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
             public void LoadPath()
             {
                 //Sets the model´s path 
                 // ToDo: Set init path of first found asset on startup
-                Debug.Log("SetInitPath: " + DropDown.options[DropDown.value].text);
+                //Debug.Log("SetInitPath: " + DropDown.options[DropDown.value].text);
+                
                 ImportRAWModel.SetModelPath(DropDown.options[DropDown.value].text);
-                //
-
+                
                 Path = DropDown.options[DropDown.value].text;
                 
                 //Reads the MetaInformation in 
@@ -68,26 +60,21 @@ namespace ImmersiveVolumeGraphics {
             /// </remarks>
             /// <param name="location"></param>
             /// <returns>void</returns>
-            public void setPath(string location)
+            public void SetPath(string location)
             {
-
                 Path = location;
-
-
             }
 
             private void Start()
             {
                 Debug.Log("Init model path load");
-                string initPath = "Skull";
+                var initPath = "Skull";
         
                 ImportRAWModel.SetModelPath(initPath);
                 
-                //Reads the MetaInformation in 
+                //Reads the MetaInformation
                 DICOMMetaReader.ReadDICOMMetaInformation();
                 Debug.Log("Path + MetaInfo loaded");
-                
-                //StartCoroutine()
 
                 var importer = FindObjectOfType<ImportRAWModel>();
                 if (importer != null)

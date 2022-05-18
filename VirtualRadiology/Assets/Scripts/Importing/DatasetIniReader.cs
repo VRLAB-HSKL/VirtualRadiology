@@ -1,15 +1,14 @@
 ﻿using System;
 using System.IO;
-using UnityEngine;
 
 namespace UnityVolumeRendering
 {
     public class DatasetIniData
     {
-        public int dimX = 0;
-        public int dimY = 0;
-        public int dimZ = 0;
-        public int bytesToSkip = 0;
+        public int dimX;
+        public int dimY;
+        public int dimZ;
+        public int bytesToSkip;
         public DataContentFormat format = DataContentFormat.Uint8;
         public Endianness endianness = Endianness.LittleEndian;
     }

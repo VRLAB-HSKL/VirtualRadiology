@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityVolumeRendering;
+using RenderMode = UnityVolumeRendering.RenderMode;
 
 namespace ImmersiveVolumeGraphics
 {
-
-
     /// <summary>
     /// This namespace containts all components that interact with the Renderingpipeline of the 3D-Model
     /// </summary>
     namespace Rendering {
-
-
 
         /// <summary>
         /// This class enables changing the RenderingModes
@@ -21,18 +16,15 @@ namespace ImmersiveVolumeGraphics
         /// <ul>
         /// <li>UnityVolumeRendering.RenderMode 0 = DirectVolumeRendering</li>
         /// <li>UnityVolumeRendering.RenderMode 1 = MaximumIntensityRendering</li>
-        /// <li>UnityVolumeRendering.RenderMode 2 = IsosurfaceRendering</li>
+        /// <li>UnityVolumeRendering.RenderMode 2 = IsoSurfaceRendering</li>
         /// </ul> 
         /// </remarks>
-
         /// <seealso>
         /// <ul>
         /// <li>Sources:</li>
         /// <li> [1] RenderMode </li>
         /// </ul>
         /// </seealso>
-
-
         public class VRModelRenderingModes : MonoBehaviour
         {
             /// <summary>
@@ -44,15 +36,13 @@ namespace ImmersiveVolumeGraphics
             /// <li>Set the rendermode to DirectVolumeRendering </li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-
             public void EnableDirectVolumeRendering()
             {
-                VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-                if (volobj != null)
+                var volObj = FindObjectOfType<VolumeRenderedObject>();
+                if (volObj != null)
                 {
-                    volobj.SetRenderMode((UnityVolumeRendering.RenderMode)0);
+                    volObj.SetRenderMode(0);
                 }
             }
 
@@ -66,46 +56,35 @@ namespace ImmersiveVolumeGraphics
             /// <li>Set the rendermode to MaximumIntensityRendering </li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
             public void EnableMaximumIntensityRendering()
             {
-
-                VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-                if (volobj != null)
+                var volObj = FindObjectOfType<VolumeRenderedObject>();
+                if (volObj != null)
                 {
-                    volobj.SetRenderMode((UnityVolumeRendering.RenderMode)1);
+                    volObj.SetRenderMode((RenderMode)1);
                 }
             }
 
             /// <summary>
-            /// Enables IsosurfaceRendering
+            /// Enables IsoSurfaceRendering
             /// </summary>
             /// <remarks>
             /// <ul>
             /// <li>Find the VolumeObject</li>
-            /// <li>Set the rendermode to IsosurfaceRendering </li>
+            /// <li>Set the render mode to IsoSurfaceRendering </li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
             /// <returns>void</returns>
-            public void EnableIsosurfaceRendering()
+            public void EnableIsoSurfaceRendering()
             {
-
-                VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-                if (volobj != null)
+                var volObj = FindObjectOfType<VolumeRenderedObject>();
+                if (volObj != null)
                 {
-                    volobj.SetRenderMode((UnityVolumeRendering.RenderMode)2);
+                    volObj.SetRenderMode((RenderMode)2);
                 }
-
-
-
             }
 
-
-
-
         }
-
     }
 }

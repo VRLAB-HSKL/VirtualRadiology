@@ -1,30 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityVolumeRendering;
 using ImmersiveVolumeGraphics.ModelEdit;
-using ImmersiveVolumeGraphics.ModelImport;
-using ImmersiveVolumeGraphics.Transferfunctions;
+using UnityEngine;
+using UnityVolumeRendering;
 using Debug = UnityEngine.Debug;
-
 
 /// <summary>
 /// Main Namespace for the Immersive Volume Graphics Applikation
 /// This Namespace uses classes of the UnityVolumeRendering-Namespace
 /// </summary>
-
-
-
-
-
-
-
 namespace ImmersiveVolumeGraphics
 {
-
     /// <summary>
     /// This namespace lists all components that are needed for the Import of a 3D-Model
     /// </summary>
@@ -34,8 +21,6 @@ namespace ImmersiveVolumeGraphics
         /// <summary>
         /// This Class handles the Import of a 3D-RAW-Model
         /// </summary>
-
-
         /// <seealso>
         /// <ul>
         /// <li>Sources:</li>
@@ -43,44 +28,39 @@ namespace ImmersiveVolumeGraphics
         /// <li> [2] UnityVolumeRendering </li>
         /// </ul>
         /// </seealso>
-
-
         public class ImportRAWModel : MonoBehaviour
         {
-
-        
             /// <summary>
             /// Name or path of the model
             /// </summary>
-            public static string ModelPath = "";
+            public static string ModelPath = string.Empty;
 
             /// <summary>
-            /// Initial data for the modelimport eg. height, width
+            /// Initial data for the model import eg. height, width
             /// </summary>
             public static DatasetIniData InitalizationData;
 
             /// <summary>
-            /// Accessible setter-method.  Other scripts can change the modelpath-variable
+            /// Accessible setter-method.  Other scripts can change the "ModelPath"-variable
             /// </summary>
-            /// <param name="Path"></param>
+            /// <param name="path"></param>
             /// <returns> void</returns>
-            public static void SetModelPath(string Path)
+            public static void SetModelPath(string path)
             {
-                ModelPath = Path;
-
+                ModelPath = path;
             }
 
             /// <summary>
             /// Imports a 3D-RAW-Model into the scene by using voice commands 
             /// </summary>
-            /// <remarks>
-            /// 
+            /// <remarks> 
             /// <ul>
-            /// <li>Find the consolebase and the regulators </li>
-            /// <li>Reset the position of the consolebase and the regulators back to their origin when user changes the model changes</li>
-            /// <li>Find the EditSlicerenderers (sliders in the regulators)</li>
+            /// <li>Find the console base and the regulators </li>
+            /// <li>Reset the position of the console base and the regulators back to their origin when user changes
+            /// the model changes</li>
+            /// <li>Find the EditSliceRenderers (sliders in the regulators)</li>
             /// <li>Find the Rotatable Table</li>
-            /// <li> Use the DespawnAllDatasets-Methode:  We'll only allow one dataset and one Model at a time  </li>
+            /// <li> Use the "DespawnAllDatasets"-Method:  We'll only allow one dataset and one Model at a time  </li>
             /// <li>Parse the .ini file specifically for the current Model</li>
             /// <li>Import the dataset with Methods from the UnityVolumeRendering-Namespace</li>
             /// <li>Spawn the object</li>
@@ -88,9 +68,7 @@ namespace ImmersiveVolumeGraphics
             /// <li>Set the model into the right place of the scene </li>
             /// <li>Rotate the object that it faces us </li>
             /// </ul>
-
             /// <pre> </pre>
-
             /// <h3>Calculating the dimensions of the model: </h3>
             /// <h3>Unity doesn't use units for its worldspace but the VR-Environment needs units for the object mapping. </h3>
             /// <h3>1 unit in Unity equals to 1 meter in VR/Real Life </h3>
@@ -100,16 +78,14 @@ namespace ImmersiveVolumeGraphics
             /// <h3>The scaling in x will be  = (amount of slices in X  * PixelSpacingX ) / 1000  </h3>
             /// <h3>The scaling in y will be  = (amount of slices in Y  * PixelSpacingX ) / 1000  </h3>
             /// <h3>The scaling in z will be  = (amount of slices in Z  * sliceThickness ) / 1000  </h3>
-
             /// <pre> </pre>
-
             /// <h3> Remark:</h3>
-            /// <h3> The slicethickness is measured  in millimeter but the mapped worldspace is in meter so we have to take the factor 1000 into consideration </h3>
+            /// <h3> The slice thickness is measured  in millimeter but the mapped world space is in meter so we have
+            /// to take the factor 1000 into consideration </h3>
             /// <h3> Every slice has the same thickness </h3>
-            /// <h3> The slicethickness can never be 0 except the metainfo file wasnt loaded , default dimensions (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter) </h3>
-
+            /// <h3> The slice thickness can never be 0 except the metainfo file wasn't loaded , default dimensions
+            /// (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter) </h3>
             /// <pre> </pre>
-
             /// <ul>
             /// <li>Check if the slicethickness is > 0 (not loaded or no DICOMMeta-File exists)</li>
             /// <li>Set the Scaling of the VolumeObject to the Dimensions that were calculated </li>
@@ -124,20 +100,15 @@ namespace ImmersiveVolumeGraphics
             /// <li> Set the ImageViewer´s sharedMaterial to the SlicingPlane´s sharedMaterial  </li>
             /// <li> Add the VRRotateWithObject-Script to the EditSliceRenderer-Objects (sliders in the regulators) </li>
             /// </ul>
-
-
             /// </remarks>
-
-            /// <param name="void"></param>
             /// <returns>void</returns>
             public static void OpenRAWDataset()
             {
-
                 //Resets for Up+DownButton 
-                GameObject consoleBase = GameObject.Find("ConsoleBase");
-                GameObject regulator1 = GameObject.Find("Regulator");
-                GameObject regulator2 = GameObject.Find("Regulator (1)");
-                GameObject regulator3 = GameObject.Find("Regulator (2)");
+                var consoleBase = GameObject.Find("ConsoleBase");
+                var regulator1 = GameObject.Find("Regulator");
+                var regulator2 = GameObject.Find("Regulator (1)");
+                var regulator3 = GameObject.Find("Regulator (2)");
 
                 consoleBase.transform.localPosition = new Vector3(0, -0.4f, 0);
 
@@ -145,29 +116,21 @@ namespace ImmersiveVolumeGraphics
                 regulator2.transform.localPosition = new Vector3(0.03635401f, -0.002974927f, 0.9838505f);
                 regulator3.transform.localPosition = new Vector3(0.6293541f, 0.00402510f, 0.3688505f);
 
-
-
                 //Resets for new Model
-
-                GameObject editSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
+                var editSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
                 Destroy(editSliceRenderer1.GetComponent<VRMoveWithObject>());
 
-                GameObject editSliceRenderer2 = GameObject.Find("EditSliceRenderer2");
+                var editSliceRenderer2 = GameObject.Find("EditSliceRenderer2");
                 Destroy(editSliceRenderer2.GetComponent<VRMoveWithObject>());
 
-                GameObject editSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
+                var editSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
                 Destroy(editSliceRenderer3.GetComponent<VRMoveWithObject>());
 
-                GameObject rotTable = GameObject.Find("Rotatable Table");
+                var rotTable = GameObject.Find("Rotatable Table");
                 Destroy(rotTable.GetComponent<VRRotateWithObject>());
-
-
 
                 // We'll only allow one dataset at a time in the runtime GUI (for simplicity)
                 DespawnAllDatasets();
-
-
-
 
                 // Did the user try to import an .ini-file? Open the corresponding .raw file instead
                 //  string filePath = Application.dataPath + "/StreamingAssets/" ;
@@ -179,14 +142,15 @@ namespace ImmersiveVolumeGraphics
                 if (InitalizationData != null)
                 {
                     // Import the dataset
-                    RawDatasetImporter importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/" + ModelPath + ".raw", InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
-                    VolumeDataset dataset = importer.Import();
+                    var importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/" + ModelPath + ".raw", InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
+                    var dataset = importer.Import();
+                    
                     // Spawn the object
                     if (dataset != null)
                     {
                         // Create the Volume Object
                         VolumeObjectFactory.CreateObject(dataset);
-                        VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                        VolumeRenderedObject volobj = FindObjectOfType<VolumeRenderedObject>();
                         // Sets the model into the right place of the scene 
                         volobj.gameObject.transform.position = new Vector3(0, 1.62f, -0.1f);
 
@@ -211,9 +175,6 @@ namespace ImmersiveVolumeGraphics
                         //SliceThickness can never be 0! except the metainfo file wasnt loaded , default dimensions (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter)
                         if (DICOMMetaReader.GetThickness() > 0)
                         {
-
-
-
                             // volobj.gameObject.transform.localScale = new Vector3((initData.dimX *DICOMMetaReader.getThickness())/ 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
 
                             // DICOMMetaReader.getThickness()
@@ -223,31 +184,23 @@ namespace ImmersiveVolumeGraphics
                         }
 
                         VolumeObjectFactory.SpawnCrossSectionPlane(volobj);
-                        GameObject quad = GameObject.Find("Quad");
+                        var quad = GameObject.Find("Quad");
                         quad.name = "CrossSection";
 
-                        MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();
+                        var meshRenderer = quad.GetComponent<MeshRenderer>();
                         meshRenderer.enabled = false;
 
+                        var crossSectionSelection = GameObject.Find("CrosssectionSelection");
+                        quad.transform.SetParent(crossSectionSelection.transform);
+                        crossSectionSelection.gameObject.transform.position = new Vector3(0.5f, 0.86f, 0.643f);
 
-
-                        GameObject crosssectionselection = GameObject.Find("CrosssectionSelection");
-                        quad.transform.SetParent(crosssectionselection.transform);
-                        crosssectionselection.gameObject.transform.position = new Vector3(0.5f, 0.86f, 0.643f);
-
-
-                        rotTable.AddComponent<VRRotateWithObject>().initObj(rotTable.name, volobj.name, "y");
-
-
-
-
+                        rotTable.AddComponent<VRRotateWithObject>().InitObj(rotTable.name, volobj.name, "y");
 
                         // Finding the ImageViewer
                         //   GameObject SlicingPlane = GameObject.Find("SlicingPlane(Clone)");
 
                         SlicingPlane SlicingPlane = volobj.CreateSlicingPlane();
                         SlicingPlane.name = "SlicingPlane1";
-
 
                         SlicingPlane SlicingPlane2 = volobj.CreateSlicingPlane();
                         SlicingPlane2.name = "SlicingPlane2";
@@ -258,8 +211,6 @@ namespace ImmersiveVolumeGraphics
                         SlicingPlane3.name = "SlicingPlane3";
                         Vector3 rot3 = new Vector3(90, 0, 0);
                         SlicingPlane3.transform.localRotation = Quaternion.Euler(rot3);
-
-
 
                         GameObject ImageViewer = GameObject.Find("ImageViewer1");
                         GameObject ImageViewer2 = GameObject.Find("ImageViewer2");
@@ -281,30 +232,22 @@ namespace ImmersiveVolumeGraphics
                         // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
 
                         //EditSliceRenderer1.AddComponent<VRMoveWithObject>();
-                        editSliceRenderer1.AddComponent<VRMoveWithObject>().initObj("SlicingPlane1", "EditSliceRenderer1", "z");
+                        editSliceRenderer1.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane1", "EditSliceRenderer1", "z");
                         // EditSliceRenderer2.AddComponent<VRMoveWithObject>().objname= "SlicingPlane2";
-                        editSliceRenderer2.AddComponent<VRMoveWithObject>().initObj("SlicingPlane2", "EditSliceRenderer2", "x");
+                        editSliceRenderer2.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane2", "EditSliceRenderer2", "x");
                         // EditSliceRenderer2.GetComponent<VRClampDirection>().start = new Vector3(0, 1.029f, -0.06f);
                         //EditSliceRenderer2.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer2";
 
                         //EditSliceRenderer3.AddComponent<VRMoveWithObject>().objname = "SlicingPlane3";
-                        editSliceRenderer3.AddComponent<VRMoveWithObject>().initObj("SlicingPlane3", "EditSliceRenderer3", "y");
+                        editSliceRenderer3.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane3", "EditSliceRenderer3", "y");
                         //EditSliceRenderer3.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer3";
 
                         //  EditSliceRenderer1.AddComponent<VRMoveWithObject>();
                         // SlicingPlane.transform.SetParent(EditSliceRenderer1.transform);
 
-
-
                     }
                 }
-
             }
-
-
-
-
-
 
             /// <summary>
             /// Imports a 3D-RAW-Model into the scene by using a Button´s OnClickListener 
@@ -324,9 +267,7 @@ namespace ImmersiveVolumeGraphics
             /// <li>Set the model into the right place of the scene </li>
             /// <li>Rotate the object that it faces us </li>
             /// </ul>
-
             /// <pre> </pre>
-
             /// <h3>Calculating the dimensions of the model: </h3>
             /// <h3>Unity doesn't use units for its worldspace but the VR-Environment needs units for the object mapping. </h3>
             /// <h3>1 unit in Unity equals to 1 meter in VR/Real Life </h3>
@@ -336,16 +277,14 @@ namespace ImmersiveVolumeGraphics
             /// <h3>The scaling in x will be  = (amount of slices in X  * PixelSpacingX ) / 1000  </h3>
             /// <h3>The scaling in y will be  = (amount of slices in Y  * PixelSpacingX ) / 1000  </h3>
             /// <h3>The scaling in z will be  = (amount of slices in Z  * sliceThickness ) / 1000  </h3>
-
             /// <pre> </pre>
-
             /// <h3> Remark:</h3>
-            /// <h3> The slicethickness is measured  in millimeter but the mapped worldspace is in meter so we have to take the factor 1000 into consideration </h3>
+            /// <h3> The slicethickness is measured  in millimeter but the mapped worldspace is in meter so we have to
+            /// take the factor 1000 into consideration </h3>
             /// <h3> Every slice has the same thickness </h3>
-            /// <h3> The slicethickness can never be 0 except the metainfo file wasnt loaded , default dimensions (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter) </h3>
-
+            /// <h3> The slicethickness can never be 0 except the metainfo file wasnt loaded , default dimensions
+            /// (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter) </h3>
             /// <pre> </pre>
-
             /// <ul>
             /// <li>Check if the slicethickness is > 0 (not loaded or no DICOMMeta-File exists)</li>
             /// <li>Set the Scaling of the VolumeObject to the Dimensions that were calculated </li>
@@ -360,14 +299,8 @@ namespace ImmersiveVolumeGraphics
             /// <li> Set the ImageViewer´s sharedMaterial to the SlicingPlane´s sharedMaterial  </li>
             /// <li> Add the VRRotateWithObject-Script to the EditSliceRenderer-Objects (sliders in the regulators) </li>
             /// </ul>
-
-
             /// </remarks>
-
-            /// <param name="void"></param>
             /// <returns>void</returns>
-
-
             public void StartOpenRawData()
             {
                 StartCoroutine(OpenRawDataRoutine());
@@ -376,10 +309,10 @@ namespace ImmersiveVolumeGraphics
             public IEnumerator OpenRawDataRoutine()
             {
                 //Resets for Up+DownButton 
-                GameObject consoleBase = GameObject.Find("ConsoleBase");
-                GameObject regulator1 = GameObject.Find("Regulator");
-                GameObject regulator2 = GameObject.Find("Regulator (1)");
-                GameObject regulator3 = GameObject.Find("Regulator (2)");
+                var consoleBase = GameObject.Find("ConsoleBase");
+                var regulator1 = GameObject.Find("Regulator");
+                var regulator2 = GameObject.Find("Regulator (1)");
+                var regulator3 = GameObject.Find("Regulator (2)");
 
                 consoleBase.transform.localPosition = new Vector3(0, -0.4f,0);
 
@@ -387,22 +320,20 @@ namespace ImmersiveVolumeGraphics
                 regulator2.transform.localPosition = new Vector3(0.03635401f, -0.002974927f, 0.9838505f);
                 regulator3.transform.localPosition = new Vector3(0.6293541f, 0.00402510f, 0.3688505f);
 
-                
-
                 yield return null;
 
                 //Resets for new Model
 
-                GameObject editSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
+                var editSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
                 Destroy(editSliceRenderer1.GetComponent<VRMoveWithObject>());
 
-                GameObject editSliceRenderer2 = GameObject.Find("EditSliceRenderer2");
+                var editSliceRenderer2 = GameObject.Find("EditSliceRenderer2");
                 Destroy(editSliceRenderer2.GetComponent<VRMoveWithObject>());
 
-                GameObject editSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
+                var editSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
                 Destroy(editSliceRenderer3.GetComponent<VRMoveWithObject>());
 
-                GameObject rotTable = GameObject.Find("Rotatable Table");
+                var rotTable = GameObject.Find("Rotatable Table");
                 Destroy(rotTable.GetComponent<VRRotateWithObject>());
 
                 yield return null;
@@ -411,7 +342,6 @@ namespace ImmersiveVolumeGraphics
                 DespawnAllDatasets();
 
                 yield return null;
-
 
                 // Did the user try to import an .ini-file? Open the corresponding .raw file instead
                 //  string filePath = Application.dataPath + "/StreamingAssets/" ;
@@ -445,8 +375,8 @@ namespace ImmersiveVolumeGraphics
                     VolumeDataset dataset = null;
                     //StartCoroutine(importer.ImportRoutine(x => dataset = x));
 
-                    Stopwatch sw = new Stopwatch();
-                    StringBuilder sb = new StringBuilder();
+                    var sw = new Stopwatch();
+                    var sb = new StringBuilder();
                     
                     sw.Start();
                     yield return importer.ImportRoutine(x => dataset = x);
@@ -458,8 +388,6 @@ namespace ImmersiveVolumeGraphics
                     {
                         Debug.Log("DATASET IS NULL !");
                     }
-                    
-                    
                     
                     // Spawn the object
                     if (dataset != null)
@@ -477,7 +405,7 @@ namespace ImmersiveVolumeGraphics
                         yield return null;
                         
                         
-                        VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                        VolumeRenderedObject volobj = FindObjectOfType<VolumeRenderedObject>();
                         if (volobj is null)
                         {
                             Debug.Log("volobj IS NULL");
@@ -549,11 +477,7 @@ namespace ImmersiveVolumeGraphics
 
                         //yield return null;
                         
-                        rotTable.AddComponent<VRRotateWithObject>().initObj(rotTable.name, volobj.name, "y");
-
-
-
-
+                        rotTable.AddComponent<VRRotateWithObject>().InitObj(rotTable.name, volobj.name, "y");
 
                         // Finding the ImageViewer
                         //   GameObject SlicingPlane = GameObject.Find("SlicingPlane(Clone)");
@@ -602,19 +526,19 @@ namespace ImmersiveVolumeGraphics
                         // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
 
                         //EditSliceRenderer1.AddComponent<VRMoveWithObject>();
-                        editSliceRenderer1.AddComponent<VRMoveWithObject>().initObj("SlicingPlane1", "EditSliceRenderer1", "z");
+                        editSliceRenderer1.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane1", "EditSliceRenderer1", "z");
                         // EditSliceRenderer2.AddComponent<VRMoveWithObject>().objname= "SlicingPlane2";
                         
                         //yield return null;
                         
-                        editSliceRenderer2.AddComponent<VRMoveWithObject>().initObj("SlicingPlane2", "EditSliceRenderer2", "x");
+                        editSliceRenderer2.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane2", "EditSliceRenderer2", "x");
                         // EditSliceRenderer2.GetComponent<VRClampDirection>().start = new Vector3(0, 1.029f, -0.06f);
                         //EditSliceRenderer2.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer2";
 
                         //yield return null;
                         
                         //EditSliceRenderer3.AddComponent<VRMoveWithObject>().objname = "SlicingPlane3";
-                        editSliceRenderer3.AddComponent<VRMoveWithObject>().initObj("SlicingPlane3", "EditSliceRenderer3", "y");
+                        editSliceRenderer3.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane3", "EditSliceRenderer3", "y");
                         //EditSliceRenderer3.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer3";
 
                         //  EditSliceRenderer1.AddComponent<VRMoveWithObject>();
@@ -628,12 +552,11 @@ namespace ImmersiveVolumeGraphics
 
             public void OpenRAWData()
             {
-
                 //Resets for Up+DownButton 
-                GameObject consoleBase = GameObject.Find("ConsoleBase");
-                GameObject regulator1 = GameObject.Find("Regulator");
-                GameObject regulator2 = GameObject.Find("Regulator (1)");
-                GameObject regulator3 = GameObject.Find("Regulator (2)");
+                var consoleBase = GameObject.Find("ConsoleBase");
+                var regulator1 = GameObject.Find("Regulator");
+                var regulator2 = GameObject.Find("Regulator (1)");
+                var regulator3 = GameObject.Find("Regulator (2)");
 
                 consoleBase.transform.localPosition = new Vector3(0, -0.4f,0);
 
@@ -645,16 +568,16 @@ namespace ImmersiveVolumeGraphics
 
                 //Resets for new Model
 
-                GameObject editSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
+                var editSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
                 Destroy(editSliceRenderer1.GetComponent<VRMoveWithObject>());
 
-                GameObject editSliceRenderer2 = GameObject.Find("EditSliceRenderer2");
+                var editSliceRenderer2 = GameObject.Find("EditSliceRenderer2");
                 Destroy(editSliceRenderer2.GetComponent<VRMoveWithObject>());
 
-                GameObject editSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
+                var editSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
                 Destroy(editSliceRenderer3.GetComponent<VRMoveWithObject>());
 
-                GameObject rotTable = GameObject.Find("Rotatable Table");
+                var rotTable = GameObject.Find("Rotatable Table");
                 Destroy(rotTable.GetComponent<VRRotateWithObject>());
 
 
@@ -694,7 +617,7 @@ namespace ImmersiveVolumeGraphics
                     {
                         // Create the Volume Object
                         VolumeObjectFactory.CreateObject(dataset);
-                        VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                        VolumeRenderedObject volobj = FindObjectOfType<VolumeRenderedObject>();
                         // Sets the model into the right place of the scene 
                         volobj.gameObject.transform.position = new Vector3(0, 1.62f, -0.1f);
 
@@ -744,7 +667,7 @@ namespace ImmersiveVolumeGraphics
                         crosssectionselection.gameObject.transform.position = new Vector3(0.5f, 0.86f, 0.643f);
 
 
-                        rotTable.AddComponent<VRRotateWithObject>().initObj(rotTable.name, volobj.name, "y");
+                        rotTable.AddComponent<VRRotateWithObject>().InitObj(rotTable.name, volobj.name, "y");
 
 
 
@@ -789,27 +712,22 @@ namespace ImmersiveVolumeGraphics
                         // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
 
                         //EditSliceRenderer1.AddComponent<VRMoveWithObject>();
-                        editSliceRenderer1.AddComponent<VRMoveWithObject>().initObj("SlicingPlane1", "EditSliceRenderer1", "z");
+                        editSliceRenderer1.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane1", "EditSliceRenderer1", "z");
                         // EditSliceRenderer2.AddComponent<VRMoveWithObject>().objname= "SlicingPlane2";
-                        editSliceRenderer2.AddComponent<VRMoveWithObject>().initObj("SlicingPlane2", "EditSliceRenderer2", "x");
+                        editSliceRenderer2.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane2", "EditSliceRenderer2", "x");
                         // EditSliceRenderer2.GetComponent<VRClampDirection>().start = new Vector3(0, 1.029f, -0.06f);
                         //EditSliceRenderer2.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer2";
 
                         //EditSliceRenderer3.AddComponent<VRMoveWithObject>().objname = "SlicingPlane3";
-                        editSliceRenderer3.AddComponent<VRMoveWithObject>().initObj("SlicingPlane3", "EditSliceRenderer3", "y");
+                        editSliceRenderer3.AddComponent<VRMoveWithObject>().InitObj("SlicingPlane3", "EditSliceRenderer3", "y");
                         //EditSliceRenderer3.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer3";
 
                         //  EditSliceRenderer1.AddComponent<VRMoveWithObject>();
                         // SlicingPlane.transform.SetParent(EditSliceRenderer1.transform);
-
-
-
                     }
                 }
-
             }
-
-
+            
             /// <summary>
             ///  Clears the current VolumeRenderedObject, CrossSection and SlicingPlane
             /// </summary>
@@ -820,40 +738,26 @@ namespace ImmersiveVolumeGraphics
             /// <li>Destroy them</li>
             /// </ul> 
             /// </remarks>
-            /// <param name="void"></param>
-            /// <returns>void</returns>
-            /// 
-
+            /// <returns>void</returns> 
             /// <seealso>
             /// <ul>
             /// <li>Sources:</li>
             /// <li> [1] UnityVolumeRendering</li>
             /// </ul>
             /// </seealso>
-
-
             private static void DespawnAllDatasets()
             {
-             
-
-
-                VolumeRenderedObject[] volobjs = GameObject.FindObjectsOfType<VolumeRenderedObject>();
-                foreach (VolumeRenderedObject volobj in volobjs)
+                var volobjs = FindObjectsOfType<VolumeRenderedObject>();
+                foreach (var volobj in volobjs)
                 {
-                    GameObject.Destroy(volobj.gameObject);
-
+                    Destroy(volobj.gameObject);
                 }
 
                 Object crosssection = GameObject.Find("CrossSection");
-                GameObject.Destroy(crosssection);
+                Destroy(crosssection);
 
                 Object slicingplane = GameObject.Find("SlicingPlane(Clone)");
-                GameObject.Destroy(slicingplane);
-
-
-
-
-
+                Destroy(slicingplane);
             }
 
         }

@@ -2,8 +2,6 @@
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using HTC.UnityPlugin.Vive;
-using UnityEngine.UI;
-using Microsoft.Win32;
 
 namespace TestScripts {
     public class MyPointerEventHandler : MonoBehaviour
@@ -11,15 +9,13 @@ namespace TestScripts {
      , IPointerExitHandler
      , IPointerClickHandler
     {
-
-
-
         private Material testmat;
         private Texture2D testtex;
         public GameObject HitMarker;
         public GameObject Target;
 
         private HashSet<PointerEventData> hovers = new HashSet<PointerEventData>();
+        
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (hovers.Add(eventData) && hovers.Count == 1)
@@ -28,28 +24,26 @@ namespace TestScripts {
                 Debug.Log("Entered ");
             }
         }
+        
         public void OnPointerExit(PointerEventData eventData)
         {
             if (hovers.Remove(eventData) && hovers.Count == 0)
             {
                 // turn to normal state
-
                 Debug.Log("Exit ");
-
             }
         }
+        
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.IsViveButton(ControllerButton.Trigger))
             {
                 // Vive button triggered!
-
-
                 Debug.Log("Trigger betätigt");
+                
                 //Testtexture
                 // testtex = new Texture2D(10, 10); 
                 testtex = new Texture2D(64, 64);
-
                 Debug.Log(HitMarker.transform.position.x + "      " + HitMarker.transform.position.y);
                 Debug.Log(this.transform.localPosition);
 
@@ -68,8 +62,6 @@ namespace TestScripts {
                 // In Y-Direction -> Output*Textureheight
                 //Hitpositioncoordinates of the Controllerray will be used to set the Color 
 
-
-
                 int x = (int)((1 / 0.3f) * (HitMarker.transform.position.x - 0.85f) * testtex.width);
                 int y = (int)((1 / 0.3f) * (HitMarker.transform.position.y - 0.85f) * testtex.height);
 
@@ -85,8 +77,6 @@ namespace TestScripts {
                 testtex.Apply();
 
                 Target.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", testtex);
-
-
             }
             else if (eventData.button == PointerEventData.InputButton.Left)
             {
@@ -94,10 +84,9 @@ namespace TestScripts {
             }
         }
 
-        void Start()
+        private void Start()
         {
             testmat = Resources.Load<Material>("TestMat");
-
         }
     }
 }

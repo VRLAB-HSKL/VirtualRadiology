@@ -23,9 +23,6 @@ namespace UnityVolumeRendering
         BigEndian
     }
     
-    
-    
-
     public class RawDatasetImporter : DatasetImporterBase
     {
         string filePath;
@@ -39,9 +36,8 @@ namespace UnityVolumeRendering
         /// <summary>
         /// Number of import steps taken in one coroutine timeframe
         /// </summary>
-        private int CoRoutineIterationLength = 0;
+        private int CoRoutineIterationLength;
         
-
         public RawDatasetImporter(string filePath, int dimX, int dimY, int dimZ, DataContentFormat contentFormat, Endianness endianness, int skipBytes)
         {
             this.filePath = filePath;
@@ -52,7 +48,6 @@ namespace UnityVolumeRendering
             this.endianness = endianness;
             this.skipBytes = skipBytes;
         }
-        
         
         public override VolumeDataset Import()
         {
@@ -197,15 +192,9 @@ namespace UnityVolumeRendering
                         }
                     }    
                 }
-                
-
-                
             }
-            
-            
         }
-        
-        
+
         private int ReadDataValue(BinaryReader reader)
         {
             switch (contentFormat)
