@@ -1,2 +1,2 @@
 # VirtualRadiology
-A prototype for a virtual radiology Application
+A prototype for a virtual radiology application
