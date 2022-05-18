@@ -1,0 +1,24 @@
+This project uses the following libraries:
+
+-openDICOM.net
+released under LGPL Version 2.1.
+http://opendicom.sourceforge.net/index.html
+Copyright (C) 2006-2007  Albert Gnandt
+
+- UnityVolumeRendering 
+https://github.com/mlavik1/UnityVolumeRendering
+
+This Project uses DICOM-Data from:
+
+-Visible Human Project® Images
+Main Pages:
+https://www.nlm.nih.gov/research/visible/visible_human.html
+https://mri.radiology.uiowa.edu/images_main.html
+Datasets
+https://mri.radiology.uiowa.edu/visible_human_datasets.html
+Licence: 
+"About 4,000 licensees from 66 countries were authorized to access the datasets. As of 2019, a license is no longer required to access the VHP datasets."
+
+
+-Pascal Pries Desktop XR - Immersive Mixed Reality Anwendungen mit HTC Vive Pro , Masterarbeit (Sommersemester 2019)
+-Julian Bernhart & Jens Cedric Schug, "AirshipVR", https://github.com/Anker13/AirshipVR
