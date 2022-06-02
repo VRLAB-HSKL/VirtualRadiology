@@ -47,11 +47,13 @@ namespace ImmersiveVolumeGraphics {
             private void Start()
             {
 
-#if UNITY_EDITOR
-                _path = string.Empty + Application.dataPath + "/StreamingAssets/";
-#else
-                string path = string.Empty + Application.dataPath + "/StreamingAssets/";
-#endif
+// #if UNITY_EDITOR
+//                 _path = Application.streamingAssetsPath; //string.Empty + Application.dataPath + "/StreamingAssets/";
+// #else
+//                 string path = string.Empty + Application//string.Empty + Application.dataPath + "/StreamingAssets/";
+//#endif
+
+                _path = Application.streamingAssetsPath;
 
                 //Creates a new drop down list
                 var dropDownOptions = new List<string>();
@@ -68,6 +70,13 @@ namespace ImmersiveVolumeGraphics {
                         // removes the path and just leaves "Name.raw" 
                         var file2 = file.Remove(0, pathLength);
                         file2 = file2.Remove(file2.Length - 4, 4);
+                        
+                        // asb
+                        
+                        // Pop slash character at the beginning
+                        file2 = file2.Remove(0, 1);
+                                              
+                        Debug.Log("Set dropdown entry: " + file2);
                         
                         //Adds the Names of the Models to the DropDownLists 
                         dropDownOptions.Add(file2);
