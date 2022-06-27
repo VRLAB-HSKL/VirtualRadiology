@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using TMPro;
 
 namespace ImmersiveVolumeGraphics {
@@ -67,8 +68,43 @@ namespace ImmersiveVolumeGraphics {
 
             private void Start()
             {
+                //ToDo: Parse command line arguments after we have a concept
+                var args = Environment.GetCommandLineArgs();
+
+                var initPath = string.Empty;
+                
+                for(var i = 0; i < args.Length; i++)
+                {
+                    var arg = args[i];
+                    switch (arg)
+                    {
+                        case "-p":
+
+                            if (i + 1 >= args.Length)
+                            {
+                                Debug.LogError("No path given to -p flag!");
+                                return;
+                            }
+
+                            var dicomPath = args[i + 1];
+                            ImportRAWModel.SetModelPath(dicomPath);
+                            
+                            break;
+                    }
+                    
+                    Debug.Log("CLI Argument [" + i + "]: " + arg);
+                }
+                
+                
+                
                 Debug.Log("Init model path load");
-                var initPath = "Skull";
+
+                //ToDo: On no path set, default to skull for now
+                if (string.IsNullOrEmpty(initPath))
+                {
+                    initPath = "Skull";    
+                }
+                
         
                 ImportRAWModel.SetModelPath(initPath);
                 
