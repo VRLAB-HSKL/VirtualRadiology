@@ -71,42 +71,77 @@ namespace ImmersiveVolumeGraphics {
                 //ToDo: Parse command line arguments after we have a concept
                 var args = Environment.GetCommandLineArgs();
 
-                var initPath = string.Empty;
+                var modelPath = string.Empty;
+                // var assetFolderPath = string.Empty;
+                // var modelName = string.Empty;
                 
                 for(var i = 0; i < args.Length; i++)
                 {
                     var arg = args[i];
+                    Debug.Log("CLI Argument [" + i + "]: " + arg);
+                    
                     switch (arg)
                     {
-                        case "-p":
-
+                        case "-asset_folder_path":
+                        case "-ap":
+                            
                             if (i + 1 >= args.Length)
                             {
-                                Debug.LogError("No path given to -p flag!");
+                                //Debug.LogError("No path given to -p flag!");
+                                Console.WriteLine("No asset folder path given to -ap flag!");
                                 return;
                             }
 
-                            var dicomPath = args[i + 1];
-                            ImportRAWModel.SetModelPath(dicomPath);
+                            ImportRAWModel.AssetFolderPath = args[i + 1];
+                            Console.WriteLine("Using asset folder: " + ImportRAWModel.AssetFolderPath);
+                            
+                            break;
+                        
+                        case "-model":
+                        case "-m":
+                            
+                            if (i + 1 >= args.Length)
+                            {
+                                Console.WriteLine("No model name given to -m flag!");
+                                return;
+                            }
+
+                            ImportRAWModel.DefaultModelName = args[i + 1];
+                            Console.WriteLine("Using model: " + ImportRAWModel.DefaultModelName);
                             
                             break;
                     }
                     
-                    Debug.Log("CLI Argument [" + i + "]: " + arg);
+                    
                 }
-                
-                
+
+                if (!string.IsNullOrEmpty(ImportRAWModel.AssetFolderPath))
+                {
+                    modelPath = ImportRAWModel.AssetFolderPath;
+
+                    if (!string.IsNullOrEmpty(ImportRAWModel.DefaultModelName))
+                    {
+                        modelPath += "\\" + ImportRAWModel.DefaultModelName;
+                    }
+                    else
+                    {
+                        modelPath += "\\Skull";
+                    }
+                    
+                    Console.WriteLine("Using default model at " + modelPath);
+                }
                 
                 Debug.Log("Init model path load");
 
                 //ToDo: On no path set, default to skull for now
-                if (string.IsNullOrEmpty(initPath))
+                if (string.IsNullOrEmpty(modelPath))
                 {
-                    initPath = "Skull";    
+                    ImportRAWModel.AssetFolderPath = Application.streamingAssetsPath;
+                    ImportRAWModel.DefaultModelName = "Skull";
+                    modelPath = Application.streamingAssetsPath + "\\" + ImportRAWModel.DefaultModelName;    
                 }
                 
-        
-                ImportRAWModel.SetModelPath(initPath);
+                ImportRAWModel.SetModelPath(modelPath);
                 
                 //Reads the MetaInformation
                 DICOMMetaReader.ReadDICOMMetaInformation();

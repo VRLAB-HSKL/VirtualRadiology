@@ -7,7 +7,7 @@ using UnityVolumeRendering;
 using Debug = UnityEngine.Debug;
 
 /// <summary>
-/// Main Namespace for the Immersive Volume Graphics Applikation
+/// Main Namespace for the Immersive Volume Graphics application
 /// This Namespace uses classes of the UnityVolumeRendering-Namespace
 /// </summary>
 namespace ImmersiveVolumeGraphics
@@ -15,7 +15,6 @@ namespace ImmersiveVolumeGraphics
     /// <summary>
     /// This namespace lists all components that are needed for the Import of a 3D-Model
     /// </summary>
-    /// 
     namespace ModelImport
     {
         /// <summary>
@@ -35,6 +34,33 @@ namespace ImmersiveVolumeGraphics
             /// </summary>
             public static string ModelPath = string.Empty;
 
+            public static string AssetFolderPath = string.Empty;
+            public static string DefaultModelName = string.Empty;
+            
+            public static string InitDataPath
+            {
+                get
+                {
+                    return ModelPath + ".ini";
+                }
+            }
+            
+            public static string RawDataPath
+            {
+                get
+                {
+                    return ModelPath + ".raw";
+                }
+            }
+            
+            public static string MetaTextPath
+            {
+                get
+                {
+                    return ModelPath + ".txt";
+                }
+            }
+            
             /// <summary>
             /// Initial data for the model import eg. height, width
             /// </summary>
@@ -138,11 +164,13 @@ namespace ImmersiveVolumeGraphics
                 //  filePath = filePath.Replace(".ini", ".raw");
 
                 // Parse .ini file
-                InitalizationData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini");
+                var initPath = InitDataPath; //ModelPath + "ini"; //Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini";
+                InitalizationData = DatasetIniReader.ParseIniFile(initPath);
                 if (InitalizationData != null)
                 {
                     // Import the dataset
-                    var importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/" + ModelPath + ".raw", InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
+                    var rawPath = RawDataPath; //ModelPath + ".raw"; //Application.dataPath + "/StreamingAssets/" + ModelPath + ".raw";
+                    var importer = new RawDatasetImporter(rawPath, InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
                     var dataset = importer.Import();
                     
                     // Spawn the object
@@ -350,10 +378,11 @@ namespace ImmersiveVolumeGraphics
 
                 // Parse .ini file
                 //InitalizationData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini");
-                var initDataPath = Application.streamingAssetsPath + "/" + ModelPath + ".ini";
+                var initDataPath = InitDataPath; // ModelPath + ".ini";  //Application.streamingAssetsPath + "/" + ModelPath + ".ini";
+                var rawDataPath = RawDataPath; //ModelPath + ".raw"; //Application.streamingAssetsPath + "/" + ModelPath + ".raw";
                 InitalizationData = DatasetIniReader.ParseIniFile(initDataPath);
                 Debug.Log("initDataPath: " + initDataPath);
-                
+                Debug.Log("rawDataPath: " + rawDataPath);
                 yield return null;
                 
                 if (InitalizationData is null)
@@ -366,7 +395,7 @@ namespace ImmersiveVolumeGraphics
                     // Import the dataset
                     //RawDatasetImporter importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/" + ModelPath + ".raw", InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
                     RawDatasetImporter importer = new RawDatasetImporter(
-                        Application.streamingAssetsPath + "/" + ModelPath + ".raw", 
+                        rawDataPath, 
                         InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, 
                         InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
                     
@@ -595,7 +624,8 @@ namespace ImmersiveVolumeGraphics
 
                 // Parse .ini file
                 //InitalizationData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini");
-                var initDataPath = Application.streamingAssetsPath + "/" + ModelPath + ".ini";
+                var initDataPath = InitDataPath; //ModelPath + ".ini"; //Application.streamingAssetsPath + "/" + ModelPath + ".ini";
+                var rawPath = RawDataPath; //ModelPath + ".raw"; //Application.streamingAssetsPath + "/" + ModelPath + ".raw";
                 InitalizationData = DatasetIniReader.ParseIniFile(initDataPath);
                 Debug.Log("initDataPath: " + initDataPath);
                 
@@ -606,7 +636,7 @@ namespace ImmersiveVolumeGraphics
                     // Import the dataset
                     //RawDatasetImporter importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/" + ModelPath + ".raw", InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
                     RawDatasetImporter importer = new RawDatasetImporter(
-                        Application.streamingAssetsPath + "/" + ModelPath + ".raw", 
+                        rawPath, 
                         InitalizationData.dimX, InitalizationData.dimY, InitalizationData.dimZ, 
                         InitalizationData.format, InitalizationData.endianness, InitalizationData.bytesToSkip);
                     

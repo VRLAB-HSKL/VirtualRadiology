@@ -300,7 +300,7 @@ namespace ImmersiveVolumeGraphics {
                 //The model´s path or name is loaded when the user clicks on dropdown element
                 // For Example : string path = Application.dataPath + "/StreamingAssets/" + "Male_Head.metainfo" + ".txt";
                 //string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt";
-                var path = Application.streamingAssetsPath + ImportRAWModel.ModelPath + ".txt";
+                var path = ImportRAWModel.MetaTextPath; // ImportRAWModel.ModelPath + ".txt"; //Application.streamingAssetsPath + ImportRAWModel.ModelPath + ".txt";
 
                 // Resets when you change the model
                 pixelSpacingX = 0;

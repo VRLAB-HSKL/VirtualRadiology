@@ -53,7 +53,7 @@ namespace ImmersiveVolumeGraphics {
 //                 string path = string.Empty + Application//string.Empty + Application.dataPath + "/StreamingAssets/";
 //#endif
 
-                _path = Application.streamingAssetsPath;
+                _path = ImportRAWModel.AssetFolderPath; //Application.streamingAssetsPath;
 
                 //Creates a new drop down list
                 var dropDownOptions = new List<string>();
