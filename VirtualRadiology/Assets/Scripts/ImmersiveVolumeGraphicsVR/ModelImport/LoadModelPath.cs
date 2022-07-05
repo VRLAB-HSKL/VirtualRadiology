@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 
@@ -40,10 +42,14 @@ namespace ImmersiveVolumeGraphics {
                 //Sets the model´s path 
                 // ToDo: Set init path of first found asset on startup
                 //Debug.Log("SetInitPath: " + DropDown.options[DropDown.value].text);
+
+                var dropDownValue = DropDown.options[DropDown.value].text;
                 
-                ImportRAWModel.SetModelPath(DropDown.options[DropDown.value].text);
+                //ImportRAWModel.SetModelPath(dropDownValue);
+
+                ImportRAWModel.ModelName = dropDownValue;
                 
-                Path = DropDown.options[DropDown.value].text;
+                Path = dropDownValue;
                 
                 //Reads the MetaInformation in 
                 DICOMMetaReader.ReadDICOMMetaInformation();
@@ -71,7 +77,7 @@ namespace ImmersiveVolumeGraphics {
                 //ToDo: Parse command line arguments after we have a concept
                 var args = Environment.GetCommandLineArgs();
 
-                var modelPath = string.Empty;
+                //var modelPath = string.Empty;
                 // var assetFolderPath = string.Empty;
                 // var modelName = string.Empty;
                 
@@ -106,8 +112,8 @@ namespace ImmersiveVolumeGraphics {
                                 return;
                             }
 
-                            ImportRAWModel.DefaultModelName = args[i + 1];
-                            Console.WriteLine("Using model: " + ImportRAWModel.DefaultModelName);
+                            ImportRAWModel.ModelName = args[i + 1];
+                            Console.WriteLine("Using model: " + ImportRAWModel.ModelName);
                             
                             break;
                     }
@@ -117,31 +123,32 @@ namespace ImmersiveVolumeGraphics {
 
                 if (!string.IsNullOrEmpty(ImportRAWModel.AssetFolderPath))
                 {
-                    modelPath = ImportRAWModel.AssetFolderPath;
-
-                    if (!string.IsNullOrEmpty(ImportRAWModel.DefaultModelName))
+                    // If only asset folder path is set, use first file in folder as model name
+                    if (string.IsNullOrEmpty(ImportRAWModel.ModelName))
                     {
-                        modelPath += "\\" + ImportRAWModel.DefaultModelName;
-                    }
-                    else
-                    {
-                        modelPath += "\\Skull";
+                        var firstFileName = GetFirstFilenameInPath(ImportRAWModel.AssetFolderPath);
+                        ImportRAWModel.ModelName = firstFileName;
                     }
                     
-                    Console.WriteLine("Using default model at " + modelPath);
+                    //modelPath += "/" + modelName;
+                    Console.WriteLine("Using default model at " + ImportRAWModel.ModelPath);
                 }
-                
-                Debug.Log("Init model path load");
-
-                //ToDo: On no path set, default to skull for now
-                if (string.IsNullOrEmpty(modelPath))
+                else
                 {
+                    //On no path set, default to first file in folder for now    
                     ImportRAWModel.AssetFolderPath = Application.streamingAssetsPath;
-                    ImportRAWModel.DefaultModelName = "Skull";
-                    modelPath = Application.streamingAssetsPath + "\\" + ImportRAWModel.DefaultModelName;    
+                    if (string.IsNullOrEmpty(ImportRAWModel.ModelName))
+                    {
+                        var firstFilename = GetFirstFilenameInPath(ImportRAWModel.AssetFolderPath);
+                        ImportRAWModel.ModelName = firstFilename;
+                        //modelPath = Application.streamingAssetsPath + "/" + ImportRAWModel.DefaultModelName;    
+                    }
+                    
                 }
                 
-                ImportRAWModel.SetModelPath(modelPath);
+                
+                //ImportRAWModel.SetModelPath(modelPath);
+                Debug.Log("Model path load - " + ImportRAWModel.ModelPath);
                 
                 //Reads the MetaInformation
                 DICOMMetaReader.ReadDICOMMetaInformation();
@@ -155,6 +162,16 @@ namespace ImmersiveVolumeGraphics {
                     StartCoroutine(importer.OpenRawDataRoutine());
                 }
                 
+            }
+
+
+            private string GetFirstFilenameInPath(string path)
+            {
+                // Attempt to get the first file in the target folder
+                var di = new DirectoryInfo(path);
+                var firstFileName = di.GetFiles().Select(fi => fi.Name).FirstOrDefault();
+                firstFileName = firstFileName.Substring(0, firstFileName.Length - 4);
+                return firstFileName;
             }
             
         }

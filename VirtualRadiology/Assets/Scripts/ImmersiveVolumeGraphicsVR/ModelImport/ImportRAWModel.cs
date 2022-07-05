@@ -32,10 +32,17 @@ namespace ImmersiveVolumeGraphics
             /// <summary>
             /// Name or path of the model
             /// </summary>
-            public static string ModelPath = string.Empty;
+            public static string ModelPath
+            {
+                get
+                {
+                    return AssetFolderPath + "/" + ModelName;
+                }
+            }
 
+            public static string ModelName = string.Empty;
             public static string AssetFolderPath = string.Empty;
-            public static string DefaultModelName = string.Empty;
+            //public static string DefaultModelName = string.Empty;
             
             public static string InitDataPath
             {
@@ -71,10 +78,10 @@ namespace ImmersiveVolumeGraphics
             /// </summary>
             /// <param name="path"></param>
             /// <returns> void</returns>
-            public static void SetModelPath(string path)
-            {
-                ModelPath = path;
-            }
+            // public static void SetModelPath(string path)
+            // {
+            //     ModelPath = path;
+            // }
 
             /// <summary>
             /// Imports a 3D-RAW-Model into the scene by using voice commands 
