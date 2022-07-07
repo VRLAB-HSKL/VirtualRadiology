@@ -33,7 +33,11 @@ namespace DefaultNamespace
             yield return null;
 
             int numSteps = dimX * dimY * dimZ;
-            int numberofRowsInRoutineStep = (int) Mathf.Floor(numSteps * 0.0001f);
+            var batchSizeFactor = 0.001f;
+            int numberofRowsInRoutineStep = (int) Mathf.Floor(numSteps * batchSizeFactor);
+            
+            Debug.Log("numstep: " + numSteps + 
+                      ", back to game loop each " + numberofRowsInRoutineStep + " iterations");
             
             if (dimZ > 500)
             {
@@ -60,13 +64,14 @@ namespace DefaultNamespace
                             int iData = x + y * dimX + z * (dimX * dimY);
                             texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
 
-                            var currentStep = (x * dimX + y * dimY + dimZ * z);
+                            int currentStep = iData; //(x * dimX + y * dimY + dimZ * z);
                             if (currentStep % numberofRowsInRoutineStep == 0)
                             {
-                                Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
-                                          " x: " + x + "/" + dimX + 
-                                          " y: " + y + "/" + dimY + 
-                                          " z: " + z + "/" + dimZ);
+                                // Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
+                                //           " " + currentStep + " % " + numberofRowsInRoutineStep +
+                                //           " x: " + x + "/" + dimX + 
+                                //           " y: " + y + "/" + dimY + 
+                                //           " z: " + z + "/" + dimZ);
                                 yield return null;    
                             }
                             
@@ -86,8 +91,6 @@ namespace DefaultNamespace
             }
             else
             {
-
-
                 Color[] cols = new Color[data.Length];
 
                 for (int x = 0; x < dimX; x++)
@@ -99,14 +102,22 @@ namespace DefaultNamespace
                             int iData = x + y * dimX + z * (dimX * dimY);
                             // cols[iData] = new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f);
                             texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
+
+                            var currentStep = iData; //(x * dimX + y * dimY + dimZ * z);
+                            if (currentStep % numberofRowsInRoutineStep == 0)
+                            {
+                                // Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
+                                //           " " + currentStep + " % " + numberofRowsInRoutineStep +
+                                //           " x: " + x + "/" + dimX + 
+                                //           " y: " + y + "/" + dimY + 
+                                //           " z: " + z + "/" + dimZ);
+                                yield return null;
+                            }
                         }
+                        
                     }
 
-                    if (x % numberofRowsInRoutineStep == 0)
-                    {
-                        Debug.Log("x: " + x + "/" + dimX);
-                        yield return null;    
-                    }
+                    
                 }
 
                 //texture.SetPixels(cols);
@@ -145,5 +156,17 @@ namespace DefaultNamespace
             }
         }
 
+        private static void CurrentStep(float stepVal, int modVal)
+        {
+            if (stepVal % modVal == 0)
+            {
+                // Debug.Log("[" + stepVal + "/" + numSteps + "]:" + 
+                //           " x: " + x + "/" + dimX + 
+                //           " y: " + y + "/" + dimY + 
+                //           " z: " + z + "/" + dimZ);
+            }    
+        }
+        
+        
     }
 }
