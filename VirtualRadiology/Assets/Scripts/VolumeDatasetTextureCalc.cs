@@ -106,11 +106,11 @@ namespace DefaultNamespace
                             var currentStep = iData; //(x * dimX + y * dimY + dimZ * z);
                             if (currentStep % numberofRowsInRoutineStep == 0)
                             {
-                                // Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
-                                //           " " + currentStep + " % " + numberofRowsInRoutineStep +
-                                //           " x: " + x + "/" + dimX + 
-                                //           " y: " + y + "/" + dimY + 
-                                //           " z: " + z + "/" + dimZ);
+                                Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
+                                           " " + currentStep + " % " + numberofRowsInRoutineStep +
+                                           " x: " + x + "/" + dimX + 
+                                           " y: " + y + "/" + dimY + 
+                                           " z: " + z + "/" + dimZ);
                                 yield return null;
                             }
                         }

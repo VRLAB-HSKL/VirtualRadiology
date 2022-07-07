@@ -678,11 +678,7 @@ namespace ImmersiveVolumeGraphics
                         // the slicethickness is the same for every dimension 
                         //SliceThickness can never be 0! except the metainfo file wasnt loaded , default dimensions (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter)
                         if (DICOMMetaReader.GetThickness() > 0)
-                        {
-
-
-
-                            // volobj.gameObject.transform.localScale = new Vector3((initData.dimX *DICOMMetaReader.getThickness())/ 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
+                        {   // volobj.gameObject.transform.localScale = new Vector3((initData.dimX *DICOMMetaReader.getThickness())/ 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
 
                             // DICOMMetaReader.getThickness()
                             // volobj.gameObject.transform.localScale = new Vector3((initData.dimX * 0.46875f) / 1000, (initData.dimY * 0.46875f) / 1000, (initData.dimZ * 0.46875f) / 1000);

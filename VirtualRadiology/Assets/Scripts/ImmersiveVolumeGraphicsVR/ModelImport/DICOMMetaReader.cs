@@ -393,6 +393,8 @@ namespace ImmersiveVolumeGraphics {
             // 
             // Left column , name eg. : Slice Thickness 
             
+            
+            
             // Getter-Method 
             /// <summary>
             /// Getter-Method for SliceThickness
@@ -403,7 +405,8 @@ namespace ImmersiveVolumeGraphics {
             /// <returns>sliceThickness</returns>
             public static float GetThickness()
             {
-                return sliceThickness;
+                // ToDo: Disabled this attribute for now
+                return 0f; //sliceThickness;
             }
 
             /// <summary>
