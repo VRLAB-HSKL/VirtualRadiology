@@ -405,8 +405,7 @@ namespace ImmersiveVolumeGraphics {
             /// <returns>sliceThickness</returns>
             public static float GetThickness()
             {
-                // ToDo: Disabled this attribute for now
-                return 0f; //sliceThickness;
+                return sliceThickness;
             }
 
             /// <summary>
