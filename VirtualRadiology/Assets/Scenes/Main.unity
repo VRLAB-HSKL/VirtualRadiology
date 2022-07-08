@@ -27459,6 +27459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1870718612}
+  - component: {fileID: 1870718613}
   m_Layer: 0
   m_Name: ProgressBar
   m_TagString: Untagged
@@ -27481,6 +27482,21 @@ Transform:
   m_Father: {fileID: 471577683}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1870718613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870718611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96554913b4ab4452afdf1b7631289ee4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingPanel: {fileID: 2053894858}
+  loadingBar: {fileID: 1669404964}
+  loadingText: {fileID: 2094945321}
 --- !u!1 &1886257355
 GameObject:
   m_ObjectHideFlags: 0
@@ -30244,7 +30260,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
+  m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2094945321
 MonoBehaviour:

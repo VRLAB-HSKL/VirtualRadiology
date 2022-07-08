@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using System.Text;
+using DefaultNamespace;
 using ImmersiveVolumeGraphics.ModelEdit;
 using UnityEngine;
 using UnityVolumeRendering;
@@ -338,11 +339,13 @@ namespace ImmersiveVolumeGraphics
             /// <returns>void</returns>
             public void StartOpenRawData()
             {
+                GlobalDataModel.IsImporting = true;
                 StartCoroutine(OpenRawDataRoutine());
             }
             
             public IEnumerator OpenRawDataRoutine()
             {
+                Debug.Log("isImporting: " + GlobalDataModel.IsImporting);
                 //Resets for Up+DownButton 
                 var consoleBase = GameObject.Find("ConsoleBase");
                 var regulator1 = GameObject.Find("Regulator");
@@ -584,6 +587,8 @@ namespace ImmersiveVolumeGraphics
                         Debug.Log(sb);
                     }
                 }
+
+                //GlobalDataModel.IsImporting = false;
             }
 
             public void OpenRAWData()

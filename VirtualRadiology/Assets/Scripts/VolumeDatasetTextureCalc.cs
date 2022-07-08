@@ -39,6 +39,8 @@ namespace DefaultNamespace
             Debug.Log("numstep: " + numSteps + 
                       ", back to game loop each " + numberofRowsInRoutineStep + " iterations");
             
+            
+            
             if (dimZ > 500)
             {
                 for (int x = 0; x < dimX; x++)
@@ -67,6 +69,8 @@ namespace DefaultNamespace
                             int currentStep = iData; //(x * dimX + y * dimY + dimZ * z);
                             if (currentStep % numberofRowsInRoutineStep == 0)
                             {
+                                
+                                
                                 // Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
                                 //           " " + currentStep + " % " + numberofRowsInRoutineStep +
                                 //           " x: " + x + "/" + dimX + 
@@ -82,10 +86,11 @@ namespace DefaultNamespace
                         
                     }
 
-                    
+                    GlobalDataModel.ModelImportProgress = (float)x / (float)dimX;
                     
                 }
 
+                GlobalDataModel.ModelImportProgress = 1f;
                 texture.Apply();
                 texCallable(texture);
             }
@@ -106,22 +111,27 @@ namespace DefaultNamespace
                             var currentStep = iData; //(x * dimX + y * dimY + dimZ * z);
                             if (currentStep % numberofRowsInRoutineStep == 0)
                             {
-                                Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
-                                           " " + currentStep + " % " + numberofRowsInRoutineStep +
-                                           " x: " + x + "/" + dimX + 
-                                           " y: " + y + "/" + dimY + 
-                                           " z: " + z + "/" + dimZ);
+                                // Debug.Log("[" + currentStep + "/" + numSteps + "]:" + 
+                                //            " " + currentStep + " % " + numberofRowsInRoutineStep +
+                                //            " x: " + x + "/" + dimX + 
+                                //            " y: " + y + "/" + dimY + 
+                                //            " z: " + z + "/" + dimZ);
                                 yield return null;
                             }
                         }
                         
                     }
 
-                    
+                    GlobalDataModel.ModelImportProgress = (float)x / (float)dimX;
+                    //var progress = currentStep / (float)numSteps;
+                    // Debug.Log("currentStep: " + x + 
+                    //           ", numSteps: " + dimX + 
+                    //           ", progress: " + GlobalDataModel.ModelImportProgress.ToString("0.00000000"));
+                    //
                 }
 
                 //texture.SetPixels(cols);
-
+                GlobalDataModel.ModelImportProgress = 1f;
                 texture.Apply();
                 texCallable(texture);
             }
