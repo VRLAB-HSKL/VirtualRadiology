@@ -45,6 +45,8 @@ namespace ImmersiveVolumeGraphics {
 
                 var dropDownValue = DropDown.options[DropDown.value].text;
                 
+                
+                
                 //ImportRAWModel.SetModelPath(dropDownValue);
 
                 ImportRAWModel.ModelName = dropDownValue;
@@ -145,6 +147,16 @@ namespace ImmersiveVolumeGraphics {
                     }
                     
                 }
+
+                // Set current value in dropdown to match imported model name
+                for (var i = 0; i < DropDown.options.Count; i++)
+                {
+                    if (DropDown.options[DropDown.value].text.Equals(ImportRAWModel.ModelName))
+                    {
+                        DropDown.SetValueWithoutNotify(i);
+                        break;
+                    }
+                }
                 
                 
                 //ImportRAWModel.SetModelPath(modelPath);
@@ -161,6 +173,8 @@ namespace ImmersiveVolumeGraphics {
                     //importer.OpenRAWData();    
                     StartCoroutine(importer.OpenRawDataRoutine());
                 }
+                
+                
                 
             }
 

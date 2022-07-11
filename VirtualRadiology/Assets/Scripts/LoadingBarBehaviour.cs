@@ -10,6 +10,8 @@ namespace DefaultNamespace
         public Slider loadingBar;
         public TextMeshProUGUI loadingText;
 
+        private float progress = 0f;
+        
         private void Update()
         {
             loadingPanel.SetActive(GlobalDataModel.IsImporting);
@@ -18,7 +20,6 @@ namespace DefaultNamespace
             
             if (GlobalDataModel.IsImporting)
             {
-                
                 UpdateLoadingBar();
             }
         }
@@ -26,17 +27,19 @@ namespace DefaultNamespace
         
         public void UpdateLoadingBar ()
         {
-            float progress = Mathf.Clamp01(GlobalDataModel.ModelImportProgress); // / .9f);
+            progress = Mathf.Clamp01(GlobalDataModel.ModelImportProgress); // / .9f);
             //Debug.Log(op.progress);
             loadingBar.value = progress;
             loadingText.text = (progress * 100f).ToString("0") + "%";
 
             //Debug.Log("updating loading bar - " + progress);
             
-            if (progress >= 1f)
-            {
-                GlobalDataModel.IsImporting = false;
-            }
+            // if (progress >= 1f)
+            // {
+            //     loadingPanel.SetActive(false);
+            //     GlobalDataModel.IsImporting = false;
+            //     progress = 0f;
+            // }
         }
 
     }

@@ -345,7 +345,6 @@ namespace ImmersiveVolumeGraphics
             
             public IEnumerator OpenRawDataRoutine()
             {
-                Debug.Log("isImporting: " + GlobalDataModel.IsImporting);
                 //Resets for Up+DownButton 
                 var consoleBase = GameObject.Find("ConsoleBase");
                 var regulator1 = GameObject.Find("Regulator");
